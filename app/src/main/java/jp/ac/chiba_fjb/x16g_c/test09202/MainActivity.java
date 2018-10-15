@@ -43,8 +43,8 @@ final String kk="test";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_maps);
+/*
         TextView dateText = (TextView) findViewById(R.id.date);
         final Time time = new Time("Asia/Tokyo");
         time.setToNow();
@@ -130,7 +130,7 @@ final String kk="test";
                 }
             }
         });
-
+*/
     }
 }
 
