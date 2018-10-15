@@ -14,7 +14,9 @@
         android:label=""
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <!--android:theme="NoActionBarTheme"-->
+
         <activity
             android:name=".SplashActivity"
             android:label="Spare Planning"
