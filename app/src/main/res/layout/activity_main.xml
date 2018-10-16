@@ -21,10 +21,11 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="現在時刻："
-                android:gravity="right"/>
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/date"
@@ -35,6 +36,10 @@
                 android:text=""
                 android:textSize="40dp" />
         </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="41dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,19 +57,21 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="戻り時間" />
+                    android:gravity="center"
+                    android:text="戻り時間"
+                    android:textSize="30sp" />
 
                 <NumberPicker
                     android:id="@+id/numPicker1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#FFA500"
-                    android:descendantFocusability="blocksDescendants"/>
+                    android:background="FFFFFF"
+                    android:descendantFocusability="blocksDescendants" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FFA500"
+                    android:background="#FFFFFF"
                     android:gravity="center"
                     android:text=":"
                     android:textSize="40sp" />
@@ -73,8 +80,8 @@
                     android:id="@+id/numPicker2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#FFA500"
-                    android:descendantFocusability="blocksDescendants"/>
+                    android:background="FFFFFF"
+                    android:descendantFocusability="blocksDescendants" />
 
                 <!--
                 <NumberPicker
@@ -84,6 +91,10 @@
                     android:background="#aaf" />
         -->
             </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="41dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -121,6 +132,10 @@
                     android:layout_height="wrap_content"
                     android:text="分" />
             </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="39dp" />
 
             <Button
                 android:id="@+id/button"

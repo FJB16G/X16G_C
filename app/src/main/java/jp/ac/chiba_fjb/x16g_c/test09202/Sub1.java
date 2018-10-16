@@ -92,11 +92,13 @@ text3.setText("ジャンルを選択してください");
 
             }
         });
-        button7.setOnClickListener(new View.OnClickListener() {
-            @Override
+
             public void onClick(View view) {
 
+
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
             }
-        });
+
     }
 }
