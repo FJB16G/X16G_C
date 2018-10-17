@@ -52,7 +52,7 @@ text3.setText("ジャンルを選択してください");
         button3.setText("喫茶店");
         button4.setText("ゲームセンター");
         button5.setText("マップ");
-        button6.setText("");
+        button6.setText("マップ2");
         button7.setText("");
 
         button2.setOnClickListener(new View.OnClickListener() {
@@ -82,14 +82,17 @@ text3.setText("ジャンルを選択してください");
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Intent intent = new Intent(Sub1.this,Map.class);
-                //startActivity(intent);
+                Intent intent = new Intent(Sub1.this,Map.class);
+                startActivity(intent);
             }
         });
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String text = "松屋";
+                Intent intent = new Intent(Sub1.this,Map2.class);
+                intent.putExtra(text,"text");
+                startActivity(intent);
             }
         });
         button7.setOnClickListener(new View.OnClickListener() {
