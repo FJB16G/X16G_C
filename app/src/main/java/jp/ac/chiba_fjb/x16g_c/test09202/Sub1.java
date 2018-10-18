@@ -1,5 +1,4 @@
 package jp.ac.chiba_fjb.x16g_c.test09202;
-
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
@@ -52,7 +51,7 @@ text3.setText("ジャンルを選択してください");
         button3.setText("喫茶店");
         button4.setText("ゲームセンター");
         button5.setText("マップ");
-        button6.setText("");
+        button6.setText("マップ2");
         button7.setText("");
 
         button2.setOnClickListener(new View.OnClickListener() {
@@ -79,26 +78,6 @@ text3.setText("ジャンルを選択してください");
                 startActivity(intent);
             }
         });
-        button5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // Intent intent = new Intent(Sub1.this,Map.class);
-                //startActivity(intent);
-            }
-        });
-        button6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-            public void onClick(View view) {
-
-
-                Intent intent = new Intent(this, MapsActivity.class);
-                startActivity(intent);
-            }
 
     }
 }
