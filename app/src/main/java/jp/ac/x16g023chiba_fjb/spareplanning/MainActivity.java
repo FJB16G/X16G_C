@@ -1,5 +1,6 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -12,26 +13,37 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //時刻設定用変数　ここから
-    private TextView pickerTextView;
-    NumberPicker numPicker0;
     NumberPicker numPicker1;
     NumberPicker numPicker2;
-    NumberPicker numPicker3;
-    NumberPicker numPicker4;
-
-    int flg = 0;
-    int ji2k = 0;
-    int funk = 0;
-
-    // 空き時間　結果の変数　ji2・・・時間　fun2・・・分数
-
+    //タイマー用
+    private TextView spacehour;
+    private TextView spaceminute;
+    private Handler mHandler = new Handler();
+    private Timer mTimer;
+    private int agoTime;
     //時刻設定画面用変数　ここまで
+    // 現在時刻
+    int nowHour;       //時
+    int nowMinute;     //分
+    //戻り到着時間
+    int reHour;        //時
+    int reMinute;      //分
+    //カテゴリナンバー
+    int categoryNo;
+    //検索文字列
+    String searchText;
+    //休憩場所
+    String breakPlace[];
+    //現在位置から目的地への移動時間
+    int moveMinute[];  //分
 
 
-    String[] figures = new String[5];
 
     FrameLayout base;
     FrameLayout layout;
@@ -41,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         base = (FrameLayout) findViewById(R.id.output);
+        final Time time = new Time("Asia/Tokyo");
+        time.setToNow();
+        nowHour = time.hour;
+        nowMinute = time.minute;
         //最初の画面を表示
         First();
     }
@@ -58,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //カテゴリ画面（マップ画面：検索文字列）
             //case
 
-            //カテゴリ画面（時刻設定画面）
             case R.id.first_nextbutton:
+                //カテゴリ画面（時刻設定画面）
                 Category();
                 break;
             //マップ画面（スケジュール画面：検索結果）
@@ -88,53 +104,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         base.addView(layout);
 
         TextView dateText = (TextView) findViewById(R.id.date);
-        final Time time = new Time("Asia/Tokyo");
-        time.setToNow();
-        String date = time.hour + "時" + time.minute + "分";
+
+        String date = nowHour + "時" + nowMinute + "分";
         dateText.setText(date);
 
         numPicker1 = findViewById(R.id.numPicker1);
         numPicker2 = findViewById(R.id.numPicker2);
-
+        //ドラムロール（時）
         numPicker1.setMaxValue(23);
-        numPicker1.setMinValue(time.hour);
-        numPicker1.setValue(time.hour);
-
+        numPicker1.setMinValue(0);
+        numPicker1.setValue(nowHour);
+        //ドラムロール（分）
         numPicker2.setMaxValue(59);
         numPicker2.setMinValue(0);
-        numPicker2.setValue(time.minute);
+        numPicker2.setValue(nowMinute);
 
-
-        final TextView text2 = (TextView) findViewById(R.id.textView6);
-        final TextView text1 = (TextView) findViewById(R.id.textView4);
-
-        Button button = (Button) findViewById(R.id.first_nextbutton);
-        button.setOnClickListener(new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            figures[0] = String.valueOf(numPicker1.getValue());
-            figures[1] = String.valueOf(numPicker2.getValue());
-            int ji = Integer.parseInt(figures[0]);
-            int fun = Integer.parseInt(figures[1]);
-            int ji2 = ji - time.hour;
-            int fun2 = fun - time.minute;
-
-            if (ji2 == 0 && fun2 <= 0) {
-                Toast t3 = Toast.makeText(MainActivity.this, "有効な時間を選択してください", Toast.LENGTH_LONG);
-                t3.show();
-
-            } else if (ji2 >= 0) {
-                if (fun2 <= -1) {
-                    fun2 = fun2 + 60;
-                    ji2 = ji2 - 1;
-                }
-                String jikan = String.valueOf(ji2);
-                String funsu = String.valueOf(fun2);
-                text1.setText(jikan);
-                text2.setText(funsu);
+        spacehour = (TextView) findViewById(R.id.spacehour);
+        spaceminute = (TextView) findViewById(R.id.spaceminute);
+        agoTime = nowMinute;
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                //UI関係の処理をサブスレッドで処理するとエラー
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //例：１：５９←→２：００
+                        if (agoTime == 59 && numPicker2.getValue() == 0) {
+                            numPicker1.setValue(numPicker1.getValue() + 1);
+                        }else if (agoTime == 0 && numPicker2.getValue() == 59){
+                            numPicker1.setValue(numPicker1.getValue() - 1);
+                        }
+                        int ji = numPicker1.getValue() - nowHour;
+                        int fun = numPicker2.getValue() - nowMinute;
+                        if (fun < 0){
+                            ji = ji - 1;
+                            fun = fun + 60;
+                        }
+                        if (numPicker1.getValue() < nowHour || numPicker1.getValue() == nowHour && numPicker2.getValue() < nowMinute){
+                            ji = ji + 24;
+                        }
+                        spacehour.setText(String.valueOf(String.valueOf(ji)));
+                        spaceminute.setText(String.valueOf(String.valueOf(fun)));
+                        agoTime = numPicker2.getValue();
+                    }
+                });
             }
-        }
-    });
+        };
+        //タイマーの起動
+        mTimer = new Timer();
+        mTimer.schedule(timerTask,0,10);
         Button button1 = (Button) findViewById(R.id.first_nextbutton);
         button1.setOnClickListener(this);
     }
