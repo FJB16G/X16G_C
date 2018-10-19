@@ -1,4 +1,4 @@
-package jp.ac.chiba_fjb.x16g_c.test09202;
+package jp.ac.x16g023chiba_fjb.spareplanning;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,7 +15,7 @@ public class SplashActivity extends Activity {
         // splash.xmlをViewに指定します。
         setContentView(R.layout.splash);
         Handler hdl = new Handler();
-        // 500ms遅延させてsplashHandlerを実行します。
+        // 500ms遅延させてsplashHandlerを実行します。　
         hdl.postDelayed(new splashHandler(), 1000);
     }
     class splashHandler implements Runnable {

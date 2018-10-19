@@ -3,8 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "jp.ac.chiba_fjb.x16g_c.test09202"
-        minSdkVersion 26
+        applicationId "jp.ac.x16g023chiba_fjb.spareplanning"
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"

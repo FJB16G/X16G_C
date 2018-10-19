@@ -1,4 +1,4 @@
-package jp.ac.chiba_fjb.x16g_c.test09202;
+package jp.ac.x16g023chiba_fjb.spareplanning;
 
 import org.junit.Test;
 

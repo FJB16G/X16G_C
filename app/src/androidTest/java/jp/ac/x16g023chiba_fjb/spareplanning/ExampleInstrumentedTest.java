@@ -1,4 +1,4 @@
-package jp.ac.chiba_fjb.x16g_c.test09202;
+package jp.ac.x16g023chiba_fjb.spareplanning;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("jp.ac.chiba_fjb.x16g_c.test09202", appContext.getPackageName());
+        assertEquals("jp.ac.x16g023chiba_fjb.spareplanning", appContext.getPackageName());
     }
 }
