@@ -10,6 +10,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,22 +20,30 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //レイアウト切り替え用変数
+    FrameLayout base;
+    FrameLayout layout;
     //時刻設定用変数　ここから
     NumberPicker numPicker1;
     NumberPicker numPicker2;
-    //タイマー用
-    private TextView spacehour;
-    private TextView spaceminute;
+    //時刻設定タイマー処理用変数
     private Handler mHandler = new Handler();
     private Timer mTimer;
     private int agoTime;
-    //時刻設定画面用変数　ここまで
+    RadioGroup group;
+    //空き時間表示用
+    private TextView spacehour;
+    private TextView spaceminute;
+    //アプリ開始時の空き時間（分）
+    int startspaceminute = 30;
     // 現在時刻
     int nowHour;       //時
     int nowMinute;     //分
     //戻り到着時間
     int reHour;        //時
     int reMinute;      //分
+    //ラジオボタンフラグ(戻り場所が現在位置かそれ以外か)
+    int radioflg;
     //カテゴリナンバー
     int categoryNo;
     //検索文字列
@@ -44,10 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int moveMinute[];  //分
 
 
-
-    FrameLayout base;
-    FrameLayout layout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +63,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         time.setToNow();
         nowHour = time.hour;
         nowMinute = time.minute;
+        reHour = nowHour;
+        reMinute = nowMinute;
+        reMinute = reMinute + startspaceminute;
+        if (reMinute >= 60){
+            reHour = reHour + 1 ;
+        }
         //最初の画面を表示
         First();
     }
@@ -65,60 +77,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         //レイアウトのリセット
         base.removeAllViews();
-        //例：遷移先（遷移元：追加値・追加値）
-        switch (v.getId()) {
-            //時刻設定画面（カテゴリ画面）
-            case R.id.ReturnFirst:
-                First();
-                break;
-            //カテゴリ画面（マップ画面：検索文字列）
-            //case
-
-            case R.id.first_nextbutton:
-                //カテゴリ画面（時刻設定画面）
+        //例：遷移先（遷移元）
+        if (v.getId() == R.id.first_nextbutton){ //カテゴリ画面（時刻設定画面）
+            mTimer.cancel();
+            if (radioflg == R.id.radioButton){
                 Category();
-                break;
-            //マップ画面（スケジュール画面：検索結果）
-            //case
-
-            //マップ画面（カテゴリ画面）
-            //case
-
-            //break;
-            //スケジュール画面（マップ画面）
-            //case
-
-            //break;
-            //ナビ画面（スケジュール画面）
-            //case
-
-            //break;
+            }else {
+                reMap();
+            }
+        }else if (v.getId() == R.id.ReturnFirst){ //時刻設定画面（カテゴリ画面）
+            First();
         }
     }
-
 
     //トップページ（時間・目的地）
     public void First() {
         //レイアウト切り替え
         layout = (FrameLayout) getLayoutInflater().inflate(R.layout.first_layout, null);
         base.addView(layout);
-
         TextView dateText = (TextView) findViewById(R.id.date);
-
         String date = nowHour + "時" + nowMinute + "分";
         dateText.setText(date);
-
         numPicker1 = findViewById(R.id.numPicker1);
         numPicker2 = findViewById(R.id.numPicker2);
         //ドラムロール（時）
         numPicker1.setMaxValue(23);
         numPicker1.setMinValue(0);
-        numPicker1.setValue(nowHour);
+        numPicker1.setValue(reHour);
         //ドラムロール（分）
         numPicker2.setMaxValue(59);
         numPicker2.setMinValue(0);
-        numPicker2.setValue(nowMinute);
+        numPicker2.setValue(reMinute);
 
+        final Button button1 = (Button) findViewById(R.id.first_nextbutton);
+        button1.setOnClickListener(this);
+        group  = findViewById(R.id.radiogroup);
+        group.check(R.id.radioButton);
         spacehour = (TextView) findViewById(R.id.spacehour);
         spaceminute = (TextView) findViewById(R.id.spaceminute);
         agoTime = nowMinute;
@@ -135,17 +129,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }else if (agoTime == 0 && numPicker2.getValue() == 59){
                             numPicker1.setValue(numPicker1.getValue() - 1);
                         }
+                        //マイナス回避処理（分）
                         int ji = numPicker1.getValue() - nowHour;
                         int fun = numPicker2.getValue() - nowMinute;
                         if (fun < 0){
                             ji = ji - 1;
                             fun = fun + 60;
                         }
+                        //マイナス回避処理（時）
                         if (numPicker1.getValue() < nowHour || numPicker1.getValue() == nowHour && numPicker2.getValue() < nowMinute){
                             ji = ji + 24;
                         }
-                        spacehour.setText(String.valueOf(String.valueOf(ji)));
-                        spaceminute.setText(String.valueOf(String.valueOf(fun)));
+                        spacehour.setText(String.valueOf(ji));
+                        spaceminute.setText(String.valueOf(fun));
+                        //共有変数に保存
+                        reHour = numPicker1.getValue();
+                        reMinute = numPicker2.getValue();
+                        //一定以下の空き時間の時次へのボタンを押せないように
+                        if (ji == 0 && fun < 30){
+                            button1.setEnabled(false);
+                            button1.setText(startspaceminute + "分以上の空き時間を設定してください" );
+                        }else {
+                            button1.setEnabled(true);
+                            button1.setText("次へ");
+                        }
+                        radioflg = group.getCheckedRadioButtonId();
                         agoTime = numPicker2.getValue();
                     }
                 });
@@ -154,38 +162,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //タイマーの起動
         mTimer = new Timer();
         mTimer.schedule(timerTask,0,10);
-        Button button1 = (Button) findViewById(R.id.first_nextbutton);
-        button1.setOnClickListener(this);
     }
 
-            //カテゴリ画面
-            public void Category() {
-                //レイアウト切り替え
-                layout = (FrameLayout) getLayoutInflater().inflate(R.layout.category_layout, null);
-                base.addView(layout);
-                //戻るボタン
-                ImageView re = (ImageView) findViewById(R.id.ReturnFirst);
-                re.setOnClickListener(this);
-            }
+    //カテゴリ画面
+    public void Category() {
+        //レイアウト切り替え
+        layout = (FrameLayout) getLayoutInflater().inflate(R.layout.category_layout, null);
+        base.addView(layout);
+        //戻るボタン
+        ImageView re = (ImageView) findViewById(R.id.ReturnFirst);
+        re.setOnClickListener(this);
+    }
 
-            //マップ画面
-            public void Map() {
-                //レイアウト切り替え
-                layout = (FrameLayout) getLayoutInflater().inflate(R.layout.map_layout, null);
-                base.addView(layout);
-            }
+    //戻り目的地選択画面
+    public void reMap(){
+        layout = (FrameLayout) getLayoutInflater().inflate(R.layout.remap_layout, null);
+        base.addView(layout);
+    }
 
-            //スケジュール画面
-            public void Schedule() {
-                //レイアウト切り替え
-                layout = (FrameLayout) getLayoutInflater().inflate(R.layout.schedule_layout, null);
-                base.addView(layout);
-            }
+    //マップ画面
+    public void Map() {
+        //レイアウト切り替え
+        layout = (FrameLayout) getLayoutInflater().inflate(R.layout.map_layout, null);
+        base.addView(layout);
+    }
 
-            //ナビ画面
-            public void navi() {
-                //レイアウト切り替え
+    //スケジュール画面
+    public void Schedule() {
+        //レイアウト切り替え
+        layout = (FrameLayout) getLayoutInflater().inflate(R.layout.schedule_layout, null);
+        base.addView(layout);
+    }
 
-            }
+    //ナビ画面
+    public void navi() {
+        //レイアウト切り替え
 
-        }
+    }
+}
