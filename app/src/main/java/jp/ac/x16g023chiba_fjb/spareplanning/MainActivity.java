@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //時刻設定用変数　ここから
     NumberPicker numPicker1;
     NumberPicker numPicker2;
+    private Time time;
     //時刻設定タイマー処理用変数
     private Handler mHandler = new Handler();
     private Timer mTimer;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         base = (FrameLayout) findViewById(R.id.output);
-        final Time time = new Time("Asia/Tokyo");
+        time = new Time("Asia/Tokyo");
         time.setToNow();
         nowHour = time.hour;
         nowMinute = time.minute;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }else {
                 reMap();
             }
-        }else if (v.getId() == R.id.ReturnFirst){ //時刻設定画面（カテゴリ画面）
+        }else if (v.getId() == R.id.ReturnFirst || v.getId() == R.id.ReturnFirst2){ //時刻設定画面に戻る（カテゴリ画面or目的地設定マップ）
             First();
         }
     }
@@ -161,7 +162,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
         //タイマーの起動
         mTimer = new Timer();
-        mTimer.schedule(timerTask,0,10);
+        mTimer.schedule(timerTask,0,15);
+
+        //時刻更新処理
+        ImageView ut = (ImageView)findViewById(R.id.updatenowtime);
+        ut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                time.setToNow();
+                nowHour = time.hour;
+                nowMinute = time.minute;
+                reHour = nowHour;
+                reMinute = nowMinute;
+                reMinute = reMinute + startspaceminute;
+                if (reMinute >= 60){
+                    reHour = reHour + 1 ;
+                }
+                //最初の画面を表示
+                base.removeAllViews();
+                First();
+            }
+        });
     }
 
     //カテゴリ画面
@@ -178,6 +199,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void reMap(){
         layout = (FrameLayout) getLayoutInflater().inflate(R.layout.remap_layout, null);
         base.addView(layout);
+        //戻るボタン
+        ImageView re = (ImageView) findViewById(R.id.ReturnFirst2);
+        re.setOnClickListener(this);
     }
 
     //マップ画面
