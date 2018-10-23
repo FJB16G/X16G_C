@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.CancellationSignal;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +15,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -33,28 +35,17 @@ Intent data = new Intent();
 String funsu = getIntent().getStringExtra("funsu");
 String jikan = getIntent().getStringExtra("jikan");
 
-        TextView text1 = (TextView)findViewById(R.id.textView8);
-        TextView text2 = (TextView)findViewById(R.id.textView9);
-        text1.setText(jikan);
-        text2.setText(funsu);
 
 TextView text3 = (TextView)findViewById(R.id.textView10);
 text3.setText("ジャンルを選択してください");
 
-        Button button2 = findViewById(R.id.button2);
-        Button button3 = findViewById(R.id.button3);
-        Button button4 = findViewById(R.id.button4);
-        Button button5 = findViewById(R.id.button5);
-        Button button6 = findViewById(R.id.button6);
-        Button button7 = findViewById(R.id.button7);
-        button2.setText("飲食店");
-        button3.setText("喫茶店");
-        button4.setText("ゲームセンター");
-        button5.setText("マップ");
-        button6.setText("マップ2");
-        button7.setText("");
+        ImageButton coffie = findViewById(R.id.coffie);
+        ImageButton eat = findViewById(R.id.eat);
+        ImageButton tranp = findViewById(R.id.tranp);
+        ImageButton config = findViewById(R.id.config);
 
-        button2.setOnClickListener(new View.OnClickListener() {
+
+        coffie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Uri uri = Uri.parse("geo:0,0?q=飲食店");
@@ -62,7 +53,7 @@ text3.setText("ジャンルを選択してください");
                 startActivity(intent);
             }
         });
-        button3.setOnClickListener(new View.OnClickListener() {
+        eat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Uri uri = Uri.parse("geo:0,0?q=喫茶店");
@@ -70,7 +61,7 @@ text3.setText("ジャンルを選択してください");
                 startActivity(intent);
             }
         });
-        button4.setOnClickListener(new View.OnClickListener() {
+        tranp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Uri uri = Uri.parse("geo:0,0?q=ゲームセンター");
