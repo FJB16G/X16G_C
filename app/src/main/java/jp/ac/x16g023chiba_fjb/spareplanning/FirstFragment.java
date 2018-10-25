@@ -21,6 +21,8 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+//import jp.ac.chiba_fjb.x16g_c.test09202.R;
+
 
 /**
  * A simple {@link Fragment} subclass.

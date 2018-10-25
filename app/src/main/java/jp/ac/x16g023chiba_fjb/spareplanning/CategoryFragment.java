@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+//import jp.ac.chiba_fjb.x16g_c.test09202.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,14 +35,24 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.button2).setOnClickListener(this);
-        TextView textView = view.findViewById(R.id.TitleText);
-        textView.setText(String.valueOf(((MainActivity)getActivity()).getReHour()));
+        //開発例
+        //view.findViewById(R.id.ID名).setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
-       // getView().findViewById()
-//        ((MainActivity)getActivity()).changeFragment(CategoryFragment.class);
+        //getView().findViewById()
+        //((MainActivity)getActivity()).changeFragment(遷移先フラグメント名.class);
+        /*
+        if(v.getID()==軽食ボタンID){
+            ((MainActivity)getActivity()).setSearchText(検索文字列);
+            ((MainActivity)getActivity()).changeFragment(MapViewFragment.class);
+        }else if(v.getID()==ボタンID){
+            ・
+            ・
+            ・
+        }
+         */
     }
 }

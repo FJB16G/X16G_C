@@ -1,24 +1,10 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
 
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     String breakPlace[];
     //現在位置から目的地への移動時間
     int moveMinute[];  //分
-
+    //初期設定空き時間（現在時刻＋？？分）
     int startspaceminute = 30;
 
 
