@@ -50,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
         return categoryNo;
     }
 
-    public String getSearchText() {
-        return searchText;
-    }
+    public String getSearchText(){ return searchText; }
 
     public String[] getBreakPlace() {
         return breakPlace;

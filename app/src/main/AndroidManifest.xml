@@ -27,6 +27,7 @@
             android:value="AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y" />
         <uses-library android:name="org.apache.http.legacy"
             android:required="false"/>
+
     </application>
 
 </manifest>

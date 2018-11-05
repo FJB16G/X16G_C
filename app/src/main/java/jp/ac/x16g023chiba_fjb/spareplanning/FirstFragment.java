@@ -65,7 +65,7 @@ public class FirstFragment extends Fragment{
         final TextView dateText = view.findViewById(R.id.date);
         nowHour = ((MainActivity)getActivity()).getNowHour();
         nowMinute = ((MainActivity)getActivity()).getNowMinute();
-        date = nowHour + "時" + String.format("%02d",nowMinute) + "分";
+        date = nowHour + "時" + nowMinute + "分";
         dateText.setText(date);
         numPicker1 = view.findViewById(R.id.numPicker1);
         numPicker2 = view.findViewById(R.id.numPicker2);
@@ -163,19 +163,6 @@ public class FirstFragment extends Fragment{
                 }
                 numPicker2.setValue(nowMinute + startspaceminute);
                 agoTime = nowMinute;
-            }
-        });
-
-
-        //デバッグ用、実装時は消すこと！
-        view.findViewById(R.id.DebugButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).setReHour(numPicker1.getValue());
-                ((MainActivity)getActivity()).setReMinute(numPicker2.getValue());
-                ((MainActivity)getActivity()).setNowHour(nowHour);
-                ((MainActivity)getActivity()).setNowMinute(nowMinute);
-                ((MainActivity)getActivity()).changeFragment(ScheduleFragment.class);
             }
         });
     }

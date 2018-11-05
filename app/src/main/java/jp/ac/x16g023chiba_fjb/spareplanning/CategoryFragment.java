@@ -36,19 +36,19 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //開発例
-        //view.findViewById(R.id.ID名).setOnClickListener(this);
+        view.findViewById(R.id.coffie).setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-        //getView().findViewById()
+        //getView().findViewById();
         //((MainActivity)getActivity()).changeFragment(遷移先フラグメント名.class);
-        /*
-        if(v.getID()==軽食ボタンID){
-            ((MainActivity)getActivity()).setSearchText(検索文字列);
-            ((MainActivity)getActivity()).changeFragment(MapViewFragment.class);
-        }else if(v.getID()==ボタンID){
+
+        if (v.getId() == R.id.coffie) {
+            ((MainActivity) getActivity()).setSearchText("convenience_store");
+            ((MainActivity) getActivity()).changeFragment(MapViewFragment.class);
+        }/*else if(v.getID()==R.id){
             ・
             ・
             ・
