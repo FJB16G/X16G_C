@@ -90,17 +90,27 @@ public class ScheduleFragment extends Fragment {
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
         p.setMargins(120,0,0,0);
         LL.addView(textView,p);
+        //歩く人のアイコン設置
+        ImageView img = new ImageView(getActivity());
+        img.setImageResource(R.drawable.walk);
+        LinearLayout.LayoutParams p2 = new LinearLayout.LayoutParams(60,60);
+        p2.setMargins(30,30,0,30);
+        LL.addView(img,p2);
         //移動時間の生成
         TextView textView2 = new TextView(getActivity());
         textView2.setText(String.valueOf(move) + "分");
         textView2.setTextSize(25);
-        LinearLayout.LayoutParams p2  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
-        p2.setMargins(30,30,0,30);
-        LL.addView(textView2,p2);
+        LinearLayout.LayoutParams p3  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        p3.setMargins(10,30,0,30);
+        LL.addView(textView2,p3);
     }
 
     //横バーの生成
     public  void  horizontalLine(){
+        LinearLayout LL = new LinearLayout(getActivity());
+        LL.setOrientation(LinearLayout.HORIZONTAL);
+        layout.addView(LL);
+
 
     }
 
