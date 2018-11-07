@@ -50,18 +50,20 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/coffie"
-                    android:layout_width="150dp"
-                    android:layout_height="140dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
+                    android:layout_weight="1"
                     android:background="@drawable/frame_style"
                     android:paddingLeft="2dp"
                     android:paddingTop="2dp"
@@ -72,12 +74,13 @@
 
                 <ImageButton
                     android:id="@+id/eat"
-                    android:layout_width="150dp"
-                    android:layout_height="140dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
+                    android:layout_weight="1"
                     android:background="@drawable/frame_style"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
@@ -110,18 +113,20 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/tranp"
-                    android:layout_width="150dp"
-                    android:layout_height="140dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
+                    android:layout_weight="1"
                     android:background="@drawable/frame_style"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
@@ -129,12 +134,13 @@
 
                 <ImageButton
                     android:id="@+id/config"
-                    android:layout_width="150dp"
-                    android:layout_height="140dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
+                    android:layout_weight="1"
                     android:padding="11dp"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/config" />
