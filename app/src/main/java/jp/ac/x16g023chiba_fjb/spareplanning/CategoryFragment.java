@@ -36,7 +36,7 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.coffie).setOnClickListener(this);
         view.findViewById(R.id.eat).setOnClickListener(this);
         view.findViewById(R.id.tranp).setOnClickListener(this);
-        //view.findViewById(R.id.config).setOnClickListener(this);
+        view.findViewById(R.id.config).setOnClickListener(this);
     }
 
     @Override
