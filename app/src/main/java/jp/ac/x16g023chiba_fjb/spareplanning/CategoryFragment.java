@@ -36,7 +36,7 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.coffie).setOnClickListener(this);
         view.findViewById(R.id.eat).setOnClickListener(this);
         view.findViewById(R.id.tranp).setOnClickListener(this);
-        view.findViewById(R.id.config).setOnClickListener(this);
+        //view.findViewById(R.id.config).setOnClickListener(this);
     }
 
     @Override
@@ -55,8 +55,9 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
         else if(v.getId()==R.id.tranp){
             ((MainActivity)getActivity()).setSearchText("amusement_park");
             ((MainActivity)getActivity()).changeFragment(MapViewFragment2.class);
-        }else if(v.getId()==R.id.config){
-            ((MainActivity)getActivity()).changeFragment(GenreCustomFragment.class);
+//        }else if(v.getId()==R.id.eat){
+//            ((MainActivity)getActivity()).setSearchText("config");
+//            ((MainActivity)getActivity()).changeFragment(.class);
         }
 
 //        キーワード検索：MapViewFragment
