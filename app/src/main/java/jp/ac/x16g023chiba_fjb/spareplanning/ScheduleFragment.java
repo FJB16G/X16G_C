@@ -11,8 +11,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< HEAD
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+=======
+>>>>>>> 6fbe42cae69135285971298d796f3d566ee5f736
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -113,6 +116,7 @@ public class ScheduleFragment extends Fragment {
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
         p.setMargins(100,0,0,0);
         LL.addView(textView,p);
+<<<<<<< HEAD
         //歩く人のアイコン設置
         ImageView img = new ImageView(getActivity());
         img.setImageResource(R.drawable.walk);
@@ -126,10 +130,20 @@ public class ScheduleFragment extends Fragment {
         LinearLayout.LayoutParams p3  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
         p3.setMargins(10,60,0,60);
         LL.addView(textView2,p3);
+=======
+        //移動時間の生成
+        TextView textView2 = new TextView(getActivity());
+        textView2.setText(String.valueOf(move) + "分");
+        textView2.setTextSize(25);
+        LinearLayout.LayoutParams p2  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        p2.setMargins(30,30,0,30);
+        LL.addView(textView2,p2);
+>>>>>>> 6fbe42cae69135285971298d796f3d566ee5f736
     }
 
     //横バーの生成
     public  void  horizontalLine(){
+<<<<<<< HEAD
         //色分け用
         LinearLayout LL_HORIZONTAL = new LinearLayout(getActivity());
         LL_HORIZONTAL.setOrientation(LinearLayout.HORIZONTAL);
@@ -190,6 +204,9 @@ public class ScheduleFragment extends Fragment {
                     LinearLayout.LayoutParams p6  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
                     p6.setMargins(20,0,0,20);
                     LL_ThirdStage.addView(textView4,p6);
+=======
+
+>>>>>>> 6fbe42cae69135285971298d796f3d566ee5f736
     }
 
 }
