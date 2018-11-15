@@ -32,10 +32,11 @@
 
             <ImageView
                 android:id="@+id/ReturnFirst"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_revert" />
+                android:padding="3dp"
+                android:src="@drawable/return1" />
 
         </LinearLayout>
 
@@ -52,6 +53,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="30dp"
                     android:baselineAligned="false"
                     android:orientation="horizontal"
                     android:padding="10dp">
@@ -112,7 +114,7 @@
                         android:layout_marginTop="10dp"
                         android:text="00:00"
                         android:textColor="@android:color/background_light"
-                        android:textSize="24sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/NowPlace"
@@ -121,9 +123,10 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
+                        android:gravity="center"
                         android:text="現在位置"
                         android:textColor="@android:color/background_light"
-                        android:textSize="24sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -156,7 +159,7 @@
                         android:layout_marginTop="10dp"
                         android:text="00:00"
                         android:textColor="@android:color/background_light"
-                        android:textSize="24sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/RePlace"
@@ -165,9 +168,10 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
+                        android:gravity="center"
                         android:text="目的地"
                         android:textColor="@android:color/background_light"
-                        android:textSize="24sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <Button
@@ -178,11 +182,11 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@android:color/holo_orange_dark"
-                    android:gravity="left|center_vertical"
+                    android:gravity="center"
                     android:paddingLeft="10dp"
-                    android:text=" +            予定を追加する"
+                    android:text="＋　予定を追加する"
                     android:textColor="@android:color/background_light"
-                    android:textSize="24sp" />
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/nextNavi"
@@ -193,7 +197,7 @@
                     android:gravity="center"
                     android:text="ナビゲーションを開始する"
                     android:textColor="@android:color/background_light"
-                    android:textSize="24sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
         </ScrollView>
