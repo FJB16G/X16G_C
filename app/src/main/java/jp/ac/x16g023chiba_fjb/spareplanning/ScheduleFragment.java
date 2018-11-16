@@ -11,11 +11,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< HEAD
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-=======
->>>>>>> 6fbe42cae69135285971298d796f3d566ee5f736
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,10 +50,11 @@ public class ScheduleFragment extends Fragment {
         TextView reTime = view.findViewById(R.id.textView2);
         TextView spaceTime = view.findViewById(R.id.textView3);
 
-        //  現在時刻の表示
+        // 現在時刻の表示
         nowTime.setText(nowHour + ":" + String.format("%02d",nowMinute));
         reTime.setText(reHour + ":" + String.format("%02d",reMinute));
-        //  空き時間表示
+
+        // 空き時間表示
         if (nowMinute > reMinute){
             if (nowHour >= reHour){
                 spaceTime.setText("(" + (reHour + 24 - 1 - nowHour) + "時間" + (reMinute + 60 - nowMinute) + "分)");
@@ -83,9 +81,7 @@ public class ScheduleFragment extends Fragment {
         TextView nowPlace = view.findViewById(R.id.NowPlace);
         nowPlace.setTextSize(txtSize);
 
-
-//        verticalLine(30);
-//        horizontalLine();
+        //以下スケジュール作成処理
         verticalLine(30);
         horizontalLine();
         verticalLine(30);
@@ -95,7 +91,7 @@ public class ScheduleFragment extends Fragment {
         reTime.setTextSize(txtSize);
         reTime.setText(String.format("%2s",reHour) + ":" + String.format("%02d",reMinute));
 
-        //デバッグ用戻り
+        //デバッグ用戻りボタン
         view.findViewById(R.id.ReturnFirst).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +112,6 @@ public class ScheduleFragment extends Fragment {
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
         p.setMargins(100,0,0,0);
         LL.addView(textView,p);
-<<<<<<< HEAD
         //歩く人のアイコン設置
         ImageView img = new ImageView(getActivity());
         img.setImageResource(R.drawable.walk);
@@ -130,20 +125,10 @@ public class ScheduleFragment extends Fragment {
         LinearLayout.LayoutParams p3  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
         p3.setMargins(10,60,0,60);
         LL.addView(textView2,p3);
-=======
-        //移動時間の生成
-        TextView textView2 = new TextView(getActivity());
-        textView2.setText(String.valueOf(move) + "分");
-        textView2.setTextSize(25);
-        LinearLayout.LayoutParams p2  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT);
-        p2.setMargins(30,30,0,30);
-        LL.addView(textView2,p2);
->>>>>>> 6fbe42cae69135285971298d796f3d566ee5f736
     }
 
     //横バーの生成
     public  void  horizontalLine(){
-<<<<<<< HEAD
         //色分け用
         LinearLayout LL_HORIZONTAL = new LinearLayout(getActivity());
         LL_HORIZONTAL.setOrientation(LinearLayout.HORIZONTAL);

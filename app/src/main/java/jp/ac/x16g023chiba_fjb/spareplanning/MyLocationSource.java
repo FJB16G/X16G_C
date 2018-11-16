@@ -32,7 +32,7 @@ class MyLocationSource implements LocationSource, android.location.LocationListe
         }
 
         LocationProvider networkProvider = mLocationManager.getProvider(LocationManager.NETWORK_PROVIDER);
-        ;
+
         if (networkProvider != null) {
             //警告は無視
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, NET_TIME, 0, this);
