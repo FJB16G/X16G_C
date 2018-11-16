@@ -189,9 +189,6 @@ public class ScheduleFragment extends Fragment {
                     LinearLayout.LayoutParams p6  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
                     p6.setMargins(20,0,0,20);
                     LL_ThirdStage.addView(textView4,p6);
-=======
-
->>>>>>> 6fbe42cae69135285971298d796f3d566ee5f736
     }
 
 }
