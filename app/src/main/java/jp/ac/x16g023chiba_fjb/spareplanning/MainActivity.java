@@ -6,29 +6,38 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
-    //スケジュール生成に必要な要素
     // 現在時刻
-    int nowHour;       //時
-    int nowMinute;     //分
-    //戻り到着時間
-    int reHour;        //時
-    int reMinute;      //分
-    //カテゴリナンバー
-    int categoryNo;
-    //検索文字列
+    int nowHour;       // 時
+    int nowMinute;     // 分
+
+    // 戻り到着時間
+    int reHour;        // 時
+    int reMinute;      // 分
+
+    // 空き時間
+    int spaceHour;
+    int spaceMinute;
+
+    // 検索文字列
     String searchText;
-    //休憩場所
-    String breakPlace[];
-    //現在位置から目的地への移動時間
-    int moveMinute[];  //分
-    //初期設定空き時間（現在時刻＋？？分）
+
+    // 最終目的地
+    String lastPlace;
+
+    // 休憩場所（配列の最後には最終目的地が入る）
+    ArrayList<String> breakPlace;
+
+    // 目的地への移動時間（目的地の配列の番号と、目的地に向かう移動時間の配列の番号が同じになるように）
+    ArrayList<Integer> moveMinute; // 分
+
+    // 初期設定空き時間（現在時刻＋？？分）
     int startspaceminute = 30;
 
-
-
-    //以下ゲッター群--------------------------------------------------------------------------------
+    // 以下ゲッター群--------------------------------------------------------------------------------
 
     public int getNowHour() {
         return nowHour;
@@ -46,21 +55,29 @@ public class MainActivity extends AppCompatActivity {
         return reMinute;
     }
 
-    public int getCategoryNo() {
-        return categoryNo;
-    }
-
     public String getSearchText(){ return searchText; }
 
-    public String[] getBreakPlace() {
+    public String getLastPlace() {
+        return lastPlace;
+    }
+
+    public int getSpaceHour() {
+        return spaceHour;
+    }
+
+    public int getSpaceMinute() {
+        return spaceMinute;
+    }
+
+    public ArrayList<String> getBreakPlace() {
         return breakPlace;
     }
 
-    public int[] getMoveMinute() {
+    public ArrayList<Integer> getMoveMinute() {
         return moveMinute;
     }
 
-    //以下セッター群--------------------------------------------------------------------------------
+    // 以下セッター群--------------------------------------------------------------------------------
 
     public void setNowHour(int nowHour) {
         this.nowHour = nowHour;
@@ -78,29 +95,37 @@ public class MainActivity extends AppCompatActivity {
         this.reMinute = reMinute;
     }
 
-    public void setCategoryNo(int categoryNo) {
-        this.categoryNo = categoryNo;
-    }
-
     public void setSearchText(String searchText) {
         this.searchText = searchText;
     }
 
-    public void setBreakPlace(String[] breakPlace) {
+    public void setLastPlace(String lastPlace) {
+        this.lastPlace = lastPlace;
+    }
+
+    public void setSpaceHour(int spaceHour) {
+        this.spaceHour = spaceHour;
+    }
+
+    public void setSpaceMinute(int spaceMinute) {
+        this.spaceMinute = spaceMinute;
+    }
+
+    public void setBreakPlace(ArrayList<String> breakPlace) {
         this.breakPlace = breakPlace;
     }
 
-    public void setMoveMinute(int[] moveMinute) {
+    public void setMoveMinute(ArrayList<Integer> moveMinute) {
         this.moveMinute = moveMinute;
     }
 
-    //----------------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //初期設定
+        // 初期設定
         Time time = new Time("Asia/Tokyo");
         time.setToNow();
         setNowHour(time.hour);
@@ -111,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             setReHour(nowHour + 1);
         }
         setReMinute(nowMinute + startspaceminute);
-        //最初の画面を表示
+        // 最初の画面を表示
         changeFragment(FirstFragment.class);
     }
 
