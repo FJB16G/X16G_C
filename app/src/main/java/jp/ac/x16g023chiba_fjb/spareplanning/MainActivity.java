@@ -24,9 +24,13 @@ public class MainActivity extends AppCompatActivity {
 
     // 検索文字列
     String searchText;
-
+    
     // 最終目的地
     String lastPlace;
+
+    //緯度経度
+    boolean lastLong;
+    boolean lastLat;
 
     // 休憩場所（配列の最後には最終目的地が入る）
     ArrayList<String> breakPlace;
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     // 初期設定空き時間（現在時刻＋？？分）
     int startspaceminute = 30;
+
+
 
     // 以下ゲッター群--------------------------------------------------------------------------------
 
