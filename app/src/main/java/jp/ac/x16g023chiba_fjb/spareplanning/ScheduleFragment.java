@@ -132,62 +132,62 @@ public class ScheduleFragment extends Fragment {
         LinearLayout LL_HORIZONTAL = new LinearLayout(getActivity());
         LL_HORIZONTAL.setOrientation(LinearLayout.HORIZONTAL);
         layout.addView(LL_HORIZONTAL);
-            //カラーボックス
-            FrameLayout FL_Coler = new FrameLayout(getActivity());
-            FL_Coler.setBackgroundColor(Color.rgb(255,136,0));
-            LinearLayout.LayoutParams pColor = new LinearLayout.LayoutParams(60,LinearLayout.LayoutParams.MATCH_PARENT);
-            LL_HORIZONTAL.addView(FL_Coler,pColor);
-            //メイン
-            LinearLayout LL_VERTICAL = new LinearLayout(getActivity());
-            LL_VERTICAL.setOrientation(LinearLayout.VERTICAL);
-            LL_VERTICAL.setBackgroundColor(Color.rgb(255,187,51));
-            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
-            LL_HORIZONTAL.addView(LL_VERTICAL,p);
-                //整列用一段目
-                LinearLayout LL_FirstStage = new LinearLayout(getActivity());
-                LL_FirstStage.setOrientation(LinearLayout.HORIZONTAL);
-                LL_VERTICAL.addView(LL_FirstStage);
-                    //到着時刻
-                    TextView textView = new TextView(getActivity());
-                    textView.setText("00:00");
-                    textView.setTextSize(txtSize);
-                    textView.setTextColor(Color.rgb(255,255,255));
-                    LinearLayout.LayoutParams p2  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                    p2.setMargins(20,20,0,20);
-                    LL_FirstStage.addView(textView,p2);
-                    //場所名
-                    TextView textView2 = new TextView(getActivity());
-                    textView2.setText("休憩場所");
-                    textView2.setTextSize(txtSize);
-                    textView2.setTextColor(Color.rgb(255,255,255));
-                    textView2.setGravity(Gravity.CENTER);
-                    LinearLayout.LayoutParams p4  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                    p4.setMargins(20,20,0,20);
-                    LL_FirstStage.addView(textView2,p4);
-                //二段目
-                LinearLayout LL_SecondStage = new LinearLayout(getActivity());
-                LL_SecondStage.setOrientation(LinearLayout.HORIZONTAL);
-                LL_VERTICAL.addView(LL_SecondStage);
-                    //「～」と滞在時間
-                    TextView textView3 = new TextView(getActivity());
-                    textView3.setText("|");
-                    textView3.setTextSize(txtSize);
-                    textView3.setTextColor(Color.rgb(255,255,255));
-                    LinearLayout.LayoutParams p5  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                    p5.setMargins(60,0,0,20);
-                    LL_SecondStage.addView(textView3,p5);
-                //三段目
-                LinearLayout LL_ThirdStage = new LinearLayout(getActivity());
-                LL_ThirdStage.setOrientation(LinearLayout.HORIZONTAL);
-                LL_VERTICAL.addView(LL_ThirdStage);
-                    //到着時刻
-                    TextView textView4 = new TextView(getActivity());
-                    textView4.setText("00:00");
-                    textView4.setTextSize(txtSize);
-                    textView4.setTextColor(Color.rgb(255,255,255));
-                    LinearLayout.LayoutParams p6  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                    p6.setMargins(20,0,0,20);
-                    LL_ThirdStage.addView(textView4,p6);
+        //カラーボックス
+        FrameLayout FL_Coler = new FrameLayout(getActivity());
+        FL_Coler.setBackgroundColor(Color.rgb(255,136,0));
+        LinearLayout.LayoutParams pColor = new LinearLayout.LayoutParams(60,LinearLayout.LayoutParams.MATCH_PARENT);
+        LL_HORIZONTAL.addView(FL_Coler,pColor);
+        //メイン
+        LinearLayout LL_VERTICAL = new LinearLayout(getActivity());
+        LL_VERTICAL.setOrientation(LinearLayout.VERTICAL);
+        LL_VERTICAL.setBackgroundColor(Color.rgb(255,187,51));
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+        LL_HORIZONTAL.addView(LL_VERTICAL,p);
+        //整列用一段目
+        LinearLayout LL_FirstStage = new LinearLayout(getActivity());
+        LL_FirstStage.setOrientation(LinearLayout.HORIZONTAL);
+        LL_VERTICAL.addView(LL_FirstStage);
+        //到着時刻
+        TextView textView = new TextView(getActivity());
+        textView.setText("00:00");
+        textView.setTextSize(txtSize);
+        textView.setTextColor(Color.rgb(255,255,255));
+        LinearLayout.LayoutParams p2  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        p2.setMargins(20,20,0,20);
+        LL_FirstStage.addView(textView,p2);
+        //場所名
+        TextView textView2 = new TextView(getActivity());
+        textView2.setText("休憩場所");
+        textView2.setTextSize(txtSize);
+        textView2.setTextColor(Color.rgb(255,255,255));
+        textView2.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams p4  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        p4.setMargins(20,20,0,20);
+        LL_FirstStage.addView(textView2,p4);
+        //二段目
+        LinearLayout LL_SecondStage = new LinearLayout(getActivity());
+        LL_SecondStage.setOrientation(LinearLayout.HORIZONTAL);
+        LL_VERTICAL.addView(LL_SecondStage);
+        //「～」と滞在時間
+        TextView textView3 = new TextView(getActivity());
+        textView3.setText("|");
+        textView3.setTextSize(txtSize);
+        textView3.setTextColor(Color.rgb(255,255,255));
+        LinearLayout.LayoutParams p5  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        p5.setMargins(60,0,0,20);
+        LL_SecondStage.addView(textView3,p5);
+        //三段目
+        LinearLayout LL_ThirdStage = new LinearLayout(getActivity());
+        LL_ThirdStage.setOrientation(LinearLayout.HORIZONTAL);
+        LL_VERTICAL.addView(LL_ThirdStage);
+        //到着時刻
+        TextView textView4 = new TextView(getActivity());
+        textView4.setText("00:00");
+        textView4.setTextSize(txtSize);
+        textView4.setTextColor(Color.rgb(255,255,255));
+        LinearLayout.LayoutParams p6  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        p6.setMargins(20,0,0,20);
+        LL_ThirdStage.addView(textView4,p6);
     }
 
 }
