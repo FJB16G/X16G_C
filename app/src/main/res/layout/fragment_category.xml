@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -46,49 +45,43 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                <ImageButton
+                    android:id="@+id/coffie"
+                    android:layout_width="150dp"
+                    android:layout_height="140dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/frame_style"
+                    android:paddingLeft="2dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingBottom="2dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/coffie_touka" />
 
-                    <ImageButton
-                        android:id="@+id/coffie"
-                        android:layout_width="150dp"
-                        android:layout_height="140dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/frame_style"
-                        android:padding="8dp"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/coffie_touka" />
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <ImageButton
-                        android:id="@+id/eat"
-                        android:layout_width="150dp"
-                        android:layout_height="140dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/frame_style"
-                        android:padding="8dp"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/eat_touka" />
-                </FrameLayout>
+                <ImageButton
+                    android:id="@+id/eat"
+                    android:layout_width="150dp"
+                    android:layout_height="140dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/frame_style"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/eat_touka" />
 
             </LinearLayout>
 
@@ -101,7 +94,6 @@
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:layout_marginStart="7dp"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -111,7 +103,6 @@
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -119,39 +110,34 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                <ImageButton
+                    android:id="@+id/tranp"
+                    android:layout_width="150dp"
+                    android:layout_height="140dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/frame_style"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/tranp" />
 
-                    <ImageButton
-                        android:id="@+id/tranp"
-                        android:layout_width="150dp"
-                        android:layout_height="140dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/frame_style"
-                        android:padding="8dp"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/tranp" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <ImageButton
-                        android:id="@+id/config"
-                        android:layout_width="150dp"
-                        android:layout_height="140dp"
-                        android:layout_gravity="center"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/config" />
-                </FrameLayout>
+                <ImageButton
+                    android:id="@+id/config"
+                    android:layout_width="150dp"
+                    android:layout_height="140dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:padding="11dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/config" />
 
             </LinearLayout>
 
@@ -164,7 +150,6 @@
                     android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:layout_marginStart="7dp"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -174,7 +159,6 @@
                     android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="詳細設定" />

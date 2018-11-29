@@ -1,5 +1,4 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
-
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
@@ -15,14 +14,11 @@ class MyLocationSource implements LocationSource, android.location.LocationListe
     private LocationManager mLocationManager;
     private OnLocationChangedListener mListener;
     private Location mLastLocation;
-
     MyLocationSource(Context context) {
         mContext = context;
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
     }
-
-    @Override
-    public void activate(OnLocationChangedListener listener) {
+    @Override public void activate(OnLocationChangedListener listener) {
 
         mListener = listener;
         LocationProvider gpsProvider = mLocationManager.getProvider(LocationManager.GPS_PROVIDER);
@@ -39,35 +35,25 @@ class MyLocationSource implements LocationSource, android.location.LocationListe
         }
 
     }
-
-    @Override
-    public void deactivate() {
+    @Override public void deactivate() {
         //警告は無視
         mLocationManager.removeUpdates(this);
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
+    @Override public void onLocationChanged(Location location) {
         if (mListener != null) {
             mListener.onLocationChanged(location);
             mLastLocation = location;
         }
     }
-
-    @Override
-    public void onProviderDisabled(String arg0) {
+    @Override public void onProviderDisabled(String arg0) {
         // TODO 自動生成されたメソッド・スタブ
 
     }
-
-    @Override
-    public void onProviderEnabled(String arg0) {
+    @Override public void onProviderEnabled(String arg0) {
         // TODO 自動生成されたメソッド・スタブ
 
     }
-
-    @Override
-    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+    @Override public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
         // TODO 自動生成されたメソッド・スタブ
 
     }

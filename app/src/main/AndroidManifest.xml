@@ -21,6 +21,10 @@
         </activity>
         <activity android:name=".MainActivity">
         </activity>
+
+        <activity android:name=".Map2">
+
+        </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y" />

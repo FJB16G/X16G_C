@@ -1,6 +1,5 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
 
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -19,28 +18,21 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
 //import jp.ac.chiba_fjb.x16g_c.test09202.R;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FirstFragment extends Fragment{
-
-
     public FirstFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
-
     NumberPicker numPicker1;
     NumberPicker numPicker2;
     String date;
@@ -63,7 +55,6 @@ public class FirstFragment extends Fragment{
     // 現在時刻
     int nowHour;       //時
     int nowMinute;     //分
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

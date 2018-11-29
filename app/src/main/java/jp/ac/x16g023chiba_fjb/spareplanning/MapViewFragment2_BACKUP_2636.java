@@ -1,4 +1,8 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/#001
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -9,10 +13,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< HEAD
+=======
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+>>>>>>> origin/#001
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
@@ -23,12 +30,26 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+<<<<<<< HEAD
+public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, RouteReader.RouteListener, RouteReader.PlaceListener, LocationSource.OnLocationChangedListener, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener {
+
+    //フィールドの生成
+    private GoogleMap mMap;
+    android.location.Location loc;
+    //int count = 0;
+    boolean flg = true;
+    double Long;
+    double Lat;
+    float[] results = new float[1];
+
+=======
 public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, RouteReader.RouteListener, RouteReader.PlaceListener, LocationSource.OnLocationChangedListener, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener, View.OnClickListener {
     //フィールドの生成
     private GoogleMap mMap;android.location.Location loc;
     //int count = 0;
     boolean flg = true;double Long;double Lat;float[] results = new float[1];
     Button button1;Button button2;Button button3;Button button4;
+>>>>>>> origin/#001
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,7 +80,12 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
         //お店の営業時間、お店の写真
     }
 
+<<<<<<< HEAD
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+=======
     @Override public void onMapReady(GoogleMap googleMap) {
+>>>>>>> origin/#001
         mMap = googleMap;
 
         MyLocationSource ls = new MyLocationSource(getContext());
@@ -103,30 +129,50 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
         mMap.clear();
 
         //検索した値の結果をマーカーでたてる
+<<<<<<< HEAD
+        for(PlaceData.Results result : placeData.results){
+            System.out.println(result.geometry.location.lat+","+result.geometry.location.lng);
+=======
         for(PlaceData.Results result : placeData.results) {
             System.out.println(result.geometry.location.lat + "," + result.geometry.location.lng);
+>>>>>>> origin/#001
             System.out.println(result.name);
-
             Location loc = result.geometry.location;
             mMap.addMarker(new MarkerOptions().position(new LatLng(loc.lat, loc.lng)).title(result.name));
 
 
         }
     }
+<<<<<<< HEAD
+
+    @Override
+    public void onLocationChanged(android.location.Location location) {
+=======
     @Override public void onLocationChanged(android.location.Location location) {
+>>>>>>> origin/#001
         loc = location;
         Long =(location.getLongitude());
         Lat = (location.getLatitude());
         //初回のみ周辺の情報を取得する
         if (flg) {
             LatLng sydney = new LatLng(location.getLatitude(),location.getLongitude());                //位置設定
+<<<<<<< HEAD
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17.0f));   //範囲2.0～21.0(全体～詳細)
+=======
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 16.0f));   //範囲2.0～21.0(全体～詳細)
+>>>>>>> origin/#001
             RouteReader.recvPlace("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y",
                     ((MainActivity)getActivity()).searchText, new LatLng(location.getLatitude(),location.getLongitude()), 500, this);
             flg = false;
         }
     }
+<<<<<<< HEAD
+
+    @Override
+    public void onCameraMove() {
+=======
     @Override public void onCameraMove() {
+>>>>>>> origin/#001
     }
     @Override public void onCameraIdle() {
 
@@ -142,6 +188,19 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
 //
 //		}
     }
+<<<<<<< HEAD
+
+    //マーカークリック処理
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        //二点間の最短距離の計算
+        loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,Lat,Long, results);
+
+        //クリックしたマーカーの情報をコンソール出力
+        System.out.println(marker.getTitle() + "\n" + (float)(results[0]) + "m , " + (int)(results[0]/60) + "分");
+        return false;
+=======
     //マーカークリック処理
     @Override public boolean onMarkerClick(Marker marker) {
 
@@ -187,6 +246,7 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
 
         }
 
+>>>>>>> origin/#001
     }
 }
 
