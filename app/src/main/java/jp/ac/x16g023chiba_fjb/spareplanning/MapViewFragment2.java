@@ -1,6 +1,7 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -151,6 +152,10 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
         layout.removeAllViews();
         TextView textView = new TextView(getContext());
         TextView textView2 = new TextView(getContext());
+        textView.setTextSize(18);
+        textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        textView.setGravity(1);
+        textView2.setTextSize(15);
         Button button5 = new Button(getContext());
         textView.setText(marker.getTitle());
         textView2.setText("徒歩"+(int)results[0]/60+"分");
@@ -159,34 +164,35 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
         layout.addView(button5);
         button5.setText("目的地を設定");
         button5.setOnClickListener(this);
+
         //クリックしたマーカーの情報をコンソール出力
         System.out.println(marker.getTitle() + "\n" + (float) (results[0]) + "m , " + (int) (results[0] / 60) + "分");
         return false;
     }    private void setContentView(LinearLayout linearLayout) {
 }
     @Override public void onClick(View v) {
+
         if (v.getId() == R.id.imageButton) {
             ((MainActivity) getActivity()).setSearchText("cafe");
             ((MainActivity) getActivity()).changeFragment(MapViewFragment2.class);
             if (((MainActivity) getActivity()).searchText.equals("cafe")) {
-                button1.setEnabled(false);
+
             }
         } else if (v.getId() == R.id.imageButton2) {
             ((MainActivity) getActivity()).setSearchText("restaurant");
             ((MainActivity) getActivity()).changeFragment(MapViewFragment2.class);
             if (((MainActivity) getActivity()).searchText.equals("restaurant")) {
-                button1.setEnabled(false);
             }
         } else if (v.getId() == R.id.imageButton3) {
             ((MainActivity) getActivity()).setSearchText("amusement_park");
             ((MainActivity) getActivity()).changeFragment(MapViewFragment2.class);
             if (((MainActivity) getActivity()).searchText.equals("amusement_park")) {
-                button1.setEnabled(false);
             }
         } else if (v.getId() == R.id.imageButton4) {
 
+        }else {
+            ((MainActivity) getActivity()).changeFragment(ScheduleFragment.class);
         }
-
     }
 }
 
