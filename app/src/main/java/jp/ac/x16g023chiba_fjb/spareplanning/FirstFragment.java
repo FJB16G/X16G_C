@@ -170,6 +170,7 @@ public class FirstFragment extends Fragment{
                 }else {
 
                     //戻り場所選択画面に遷移
+                    ((MainActivity)getActivity()).changeFragment(GoalFragment.class);
 
                 }
             }

@@ -72,7 +72,6 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
         UiSettings settings = mMap.getUiSettings();
         settings.setMyLocationButtonEnabled(true);
         mMap.setOnMarkerClickListener(this);
-
         //ルート検索
         //RouteReader.recvRoute("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y","千葉県船橋市本町","",this);
     }

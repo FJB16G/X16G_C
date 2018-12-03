@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ScheduleFragment extends Fragment {
+public class ScheduleFragment extends Fragment implements View.OnClickListener {
 
 
     public ScheduleFragment() {
@@ -39,6 +40,11 @@ public class ScheduleFragment extends Fragment {
 
     LinearLayout layout;
     int txtSize = 18;
+
+    // ボタン識別用リスト
+    ArrayList<Button> BtID = new ArrayList<Button>();
+
+    ArrayList<String> place;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -58,7 +64,7 @@ public class ScheduleFragment extends Fragment {
         String rePiace = ((MainActivity)getActivity()).getLastPlace();
 
         // 目的地１番～戻り場所の一つ前まで
-        ArrayList<String> place = ((MainActivity)getActivity()).getBreakPlace();
+        place = ((MainActivity)getActivity()).getBreakPlace();
 
         // 各場所の滞在時間
         ArrayList<Integer> duration = new ArrayList<Integer>();
@@ -296,9 +302,29 @@ public class ScheduleFragment extends Fragment {
                     textView4.setTextColor(Color.rgb(255,255,255));
                     LinearLayout.LayoutParams p6  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
                     p6.setMargins(20,0,0,20);
+                    p6.weight = 7.0f;
                     LL_ThirdStage.addView(textView4,p6);
+
+                    Button button = new Button(getActivity());
+                    button.setText("編集");
+                    button.setTextSize(txtSize);
+                    LinearLayout.LayoutParams p8  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                    p8.weight = 1.0f;
+                    LL_ThirdStage.addView(button,p8);
+                    // ボタン識別用
+                    BtID.add(button);
+                    button.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        for (int i = 0 ; i < BtID.size() ; i++){
+            if (v.getId() == BtID.get(i).getId()){
+                System.out.print(place.get(i));
 
+                break;
+            }
+        }
+    }
 
 }

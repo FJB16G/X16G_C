@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
     // 初期設定空き時間（現在時刻＋？？分）
     int startspaceminute = 30;
 
+    //緯度経度
+    double lastLong;
+    double lastLat;
+
+
     // 以下ゲッター群--------------------------------------------------------------------------------
 
     public int getNowHour() {
@@ -75,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList<Integer> getMoveMinute() {
         return moveMinute;
+    }
+
+    public double getLastLong() {
+        return lastLong;
+    }
+
+    public double getLastLat() {
+        return lastLat;
     }
 
     // 以下セッター群--------------------------------------------------------------------------------
@@ -117,6 +130,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void setMoveMinute(ArrayList<Integer> moveMinute) {
         this.moveMinute = moveMinute;
+    }
+
+    public void setLastLong(double lastLong) {
+        this.lastLong = lastLong;
+    }
+
+    public void setLastLat(double lastLat) {
+        this.lastLat = lastLat;
     }
 
     // ----------------------------------------------------------------------------------------------
