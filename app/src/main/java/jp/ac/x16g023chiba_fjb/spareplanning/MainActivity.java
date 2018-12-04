@@ -25,14 +25,24 @@ public class MainActivity extends AppCompatActivity {
     // 検索文字列
     String searchText;
 
-    // 最終目的地
-    String lastPlace;
+    // 最終目的地（デフォルトは現在位置）
+    String lastPlace = "現在位置";
+
+    public int getLastMove() {
+        return lastMove;
+    }
+
+    public void setLastMove(int lastMove) {
+        this.lastMove = lastMove;
+    }
+
+    int lastMove;
 
     // 休憩場所（配列の最後には最終目的地が入る）
-    ArrayList<String> breakPlace;
+    ArrayList<String> breakPlace = new ArrayList<String>();
 
     // 目的地への移動時間（目的地の配列の番号と、目的地に向かう移動時間の配列の番号が同じになるように）
-    ArrayList<Integer> moveMinute; // 分
+    ArrayList<Integer> moveMinute = new ArrayList<Integer>(); // 分
 
     // 初期設定空き時間（現在時刻＋？？分）
     int startspaceminute = 30;

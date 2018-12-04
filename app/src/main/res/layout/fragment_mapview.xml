@@ -12,4 +12,61 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="55sp"
+            android:layout_height="55sp"
+            android:layout_gravity="right"
+            android:scaleType="fitCenter"
+            android:src="@drawable/coffie_touka" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="55sp"
+            android:layout_height="55sp"
+            android:layout_gravity="right"
+            android:scaleType="fitCenter"
+            android:src="@drawable/eat_touka" />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="55sp"
+            android:layout_height="55sp"
+            android:layout_gravity="right"
+            android:scaleType="fitCenter"
+            android:src="@drawable/tranp" />
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="55sp"
+            android:layout_height="55sp"
+            android:layout_gravity="right"
+            android:scaleType="fitCenter"
+            android:src="@drawable/config" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shopData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        app:layout_constraintVertical_bias="1.0">
+
+    </LinearLayout>
+
+
 </FrameLayout>

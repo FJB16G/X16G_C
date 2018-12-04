@@ -141,7 +141,7 @@ public class ScheduleFragment extends Fragment implements View.OnClickListener {
         }
 
         //戻り場所への移動時間の連結バーを表示する
-        verticalLine(moveMinute.get(moveMinute.size() - 1));
+        verticalLine(((MainActivity) getActivity()).getLastMove());
 
         //戻り場所のアクションバーの生成と設定
         reTimeView = view.findViewById(R.id.textView2_2);

@@ -210,7 +210,7 @@ public class FirstFragment extends Fragment{
                 list.add("休憩場所１");
                 list.add("休憩場所２");
                 list.add("休憩場所３");
-                ((MainActivity)getActivity()).setBreakPlace(list);
+                //((MainActivity)getActivity()).setBreakPlace(list);
                 ((MainActivity)getActivity()).setLastPlace("現在位置");
 
                 ArrayList<Integer> list2 = new ArrayList<Integer>();
@@ -219,7 +219,7 @@ public class FirstFragment extends Fragment{
                 list2.add(3);
                 // 最終目的地までの移動時間
                 list2.add(4);
-                ((MainActivity)getActivity()).setMoveMinute(list2);
+                //((MainActivity)getActivity()).setMoveMinute(list2);
 
                 ((MainActivity)getActivity()).setSpaceHour(spaceHour);
                 ((MainActivity)getActivity()).setSpaceMinute(spaceMinute);
