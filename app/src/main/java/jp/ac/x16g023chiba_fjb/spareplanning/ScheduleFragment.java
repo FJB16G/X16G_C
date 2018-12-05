@@ -151,11 +151,15 @@ public class ScheduleFragment extends Fragment implements View.OnClickListener {
         rePlaceView.setText(rePiace);
         rePlaceView.setTextSize(txtSize);
 
-        //デバッグ用戻りボタン
+        //戻りボタン
         view.findViewById(R.id.ReturnFirst).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeFragment(FirstFragment.class);
+
+                // 追加した要素を削除する
+                ((MainActivity)getActivity()).getBreakPlace().remove(((MainActivity)getActivity()).getBreakPlace().size() - 1);
+                ((MainActivity)getActivity()).getMoveMinute().remove(((MainActivity)getActivity()).getMoveMinute().size() - 1);
+                ((MainActivity)getActivity()).changeFragment(MapViewFragment2.class);
             }
         });
 

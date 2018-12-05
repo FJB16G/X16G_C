@@ -2,6 +2,7 @@ package jp.ac.x16g023chiba_fjb.spareplanning;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -107,11 +108,11 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
             System.out.println(result.geometry.location.lat+","+result.geometry.location.lng);
             System.out.println(result.name);
             Location loc = result.geometry.location;
-            mMap.addMarker(new MarkerOptions().position(new LatLng(loc.lat, loc.lng)).title(result.name));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(loc.lat, loc.lng)).title(result.name).);
         }
 
         // ゴール地点が現在位置の場合はピンを立てない
-        if (!(((MainActivity)getActivity()).lastPlace.equals("現在位置"))){
+        if (!(((MainActivity)getActivity()).getLastPlace().equals("現在位置"))){
             //ゴール地点のポインターの設置
             MarkerOptions options = new MarkerOptions();
             options.position(new LatLng(((MainActivity)getActivity()).getLastLat(),((MainActivity)getActivity()).getLastLong()));
@@ -127,6 +128,7 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
         }
     }
 
+    // GPS情報取得時処理
     @Override
     public void onLocationChanged(android.location.Location location) {
         loc = location;
@@ -148,29 +150,25 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
 
     @Override
     public void onCameraIdle() {
-
-        //LatLng sydney = new LatLng(mMap.getCameraPosition().target.latitude, mMap.getCameraPosition().target.longitude);                //位置設定
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15.0f));   //範囲2.0～21.0(全体～詳細)
-//			if (count < 1) {
-//			RouteReader.recvPlace("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y",
-//					"cafe", new LatLng(mMap.getCameraPosition().target.latitude, mMap.getCameraPosition().target.longitude), 500, this);
-////				RouteReader.recvPlace("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y",
-////						"cafe", new LatLng(onLocationChanged(mMap.getCameraPosition().target.latitude, mMap.getCameraPosition().target.longitude*/), 500, this);
-//
-//				count++;
-//
-//		}
     }
 
     //マーカークリック処理
     @Override
     public boolean onMarkerClick(final Marker marker) {
+
+        // 追加するレイアウト
         LinearLayout layout = getView().findViewById(R.id.shopData);
+
+        //すべてのマーカーを削除
         layout.removeAllViews();
+
+        // 選択マーカーがゴール地点の場合
         if (marker.getTitle().toString().equals(((MainActivity)getActivity()).lastPlace)){
             TextView textView = new TextView(getActivity());
             textView.setText("ゴール地点です");
             layout.addView(textView);
+
+        // 選択マーカーがゴール地点以外の場合
         }else {
             //二点間の最短距離の計算
             loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,Lat,Long, results);
@@ -182,15 +180,21 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
             // 店舗名
             TextView textView = new TextView(getActivity());
             textView.setText(marker.getTitle().toString());
+            textView.setTextSize(30);
             layout.addView(textView);
             // 現在地点からタップしたマーカーまでの移動時間
             TextView textView2 = new TextView(getActivity());
             textView2.setText((int) (results[0]) + "m , " + (int)(results[0]/60) + "分");
+            textView2.setTextSize(15);
             layout.addView(textView2);
             // 決定ボタン
             Button button = new Button(getActivity());
             button.setText("ここで休む");
+            button.setBackgroundColor(Color.rgb(255,187,51));
+            button.setTextColor(Color.rgb(255,255,255));
             layout.addView(button);
+
+            //休憩場所決定処理
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -222,8 +226,11 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
         return false;
     }
 
+    // カテゴリ変更ボタン処理
     @Override
     public void onClick(View v) {
+
+        // 押されたボタンに対応した検索文字を再格納
         if (v.getId() == R.id.imageButton) {
             ((MainActivity) getActivity()).setSearchText("cafe");
         } else if (v.getId() == R.id.imageButton2) {
@@ -233,6 +240,7 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
         } else if (v.getId() == R.id.imageButton4) {
 
         }
+        // 周辺データを再取得
         RouteReader.recvPlace("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y",
                 ((MainActivity)getActivity()).searchText, new LatLng(Lat,Long), 500, this);
     }

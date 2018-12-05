@@ -2,6 +2,7 @@ package jp.ac.x16g023chiba_fjb.spareplanning;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -180,6 +181,8 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
         Button button = new Button(getActivity());
         button.setText("決定");
         button.setTextSize(25);
+        button.setBackgroundColor(Color.rgb(255,187,51));
+        button.setTextColor(Color.rgb(255,255,255));
         LinearLayout.LayoutParams p  = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
         p.setMargins(0,0,10,15);
         layout.addView(button,p);
