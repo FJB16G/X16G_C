@@ -1,6 +1,7 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
 
 
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -12,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.LocationSource;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -26,7 +30,7 @@ import java.util.TimerTask;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FirstFragment extends Fragment{
+public class FirstFragment extends Fragment implements LocationSource.OnLocationChangedListener {
 
 
     public FirstFragment() {
@@ -64,13 +68,23 @@ public class FirstFragment extends Fragment{
     int nowHour;       //時
     int nowMinute;     //分
 
+    MyLocationSource ls;
+    boolean flg = false;
+    Button nextbutton;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ls = new MyLocationSource(getContext());
+        ls.activate(this);
+
         // フィールドの作成
         final TextView dateText = view.findViewById(R.id.date);
-        final Button nextbutton = view.findViewById(R.id.first_nextbutton);
+        nextbutton = view.findViewById(R.id.first_nextbutton);
+
+        nextbutton.setEnabled(false);
+        nextbutton.setText("現在位置取得中です、暫くお待ちください・・・" );
 
         nowHour = ((MainActivity)getActivity()).getNowHour();
         nowMinute = ((MainActivity)getActivity()).getNowMinute();
@@ -130,13 +144,16 @@ public class FirstFragment extends Fragment{
                         spaceHourView.setText(String.valueOf(ji));
                         spaceMinuteView.setText(String.valueOf(fun));
 
-                        //一定以下の空き時間の時次へのボタンを押せないように
-                        if (ji == 0 && fun < 30){
-                            nextbutton.setEnabled(false);
-                            nextbutton.setText(startSpaceMinute + "分以上の空き時間を設定してください" );
-                        }else {
-                            nextbutton.setEnabled(true);
-                            nextbutton.setText("次へ");
+                        //現在位置取得後実行
+                        if (flg) {
+                            //一定以下の空き時間の時次へのボタンを押せないように
+                            if (ji == 0 && fun < 30) {
+                                nextbutton.setEnabled(false);
+                                nextbutton.setText(startSpaceMinute + "分以上の空き時間を設定してください");
+                            } else {
+                                nextbutton.setEnabled(true);
+                                nextbutton.setText("次へ");
+                            }
                         }
                         agoTime = numPicker2.getValue();
                     }
@@ -163,6 +180,9 @@ public class FirstFragment extends Fragment{
 
                 //タイマー処理の停止
                 mTimer.cancel();
+
+                // GPSの停止
+                ls.deactivate();
                 if (radioGroup.getCheckedRadioButtonId() == R.id.radioButton){
 
                     //カテゴリ選択画面に遷移
@@ -197,6 +217,11 @@ public class FirstFragment extends Fragment{
                 }
                 numPicker2.setValue(nowMinute + startSpaceMinute);
                 agoTime = nowMinute;
+
+                // 現在位置の再取得
+                flg = false;
+                nextbutton.setEnabled(false);
+                nextbutton.setText("現在位置取得中です、暫くお待ちください・・・" );
             }
         });
 
@@ -230,5 +255,16 @@ public class FirstFragment extends Fragment{
                 ((MainActivity)getActivity()).changeFragment(ScheduleFragment.class);
             }
         });
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (!(flg)){
+            ((MainActivity)getActivity()).setNowLat(location.getLatitude());
+            ((MainActivity)getActivity()).setNowLong(location.getLongitude());
+            ((MainActivity)getActivity()).setSelectLat(location.getLatitude());
+            ((MainActivity)getActivity()).setSelectLong(location.getLongitude());
+        }
+        flg = true;
     }
 }

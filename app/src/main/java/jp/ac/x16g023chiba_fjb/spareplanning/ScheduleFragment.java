@@ -167,7 +167,9 @@ public class ScheduleFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.addPlans).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //
+                ((MainActivity)getActivity()).setSelectLat(((MainActivity)getActivity()).getSelectLat2());
+                ((MainActivity)getActivity()).setSelectLong(((MainActivity)getActivity()).getSelectLong2());
+                ((MainActivity)getActivity()).changeFragment(MapViewFragment2.class);
             }
         });
     }

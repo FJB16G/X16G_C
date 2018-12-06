@@ -28,15 +28,40 @@ public class MainActivity extends AppCompatActivity {
     // 最終目的地（デフォルトは現在位置）
     String lastPlace = "現在位置";
 
-    public int getLastMove() {
-        return lastMove;
-    }
-
-    public void setLastMove(int lastMove) {
-        this.lastMove = lastMove;
-    }
-
+    // 最後の休憩場所からゴール地点までの移動時間
     int lastMove;
+
+    //現在位置の緯度経度
+    double nowLong;
+    double nowLat;
+
+    //ゴール地点の緯度経度
+    double lastLong;
+    double lastLat;
+
+    //指定地点の緯度経度(初期値は現在位置)
+    double selectLat;
+    double selectLong;
+
+    public double getSelectLat2() {
+        return selectLat2;
+    }
+
+    public void setSelectLat2(double selectLat2) {
+        this.selectLat2 = selectLat2;
+    }
+
+    public double getSelectLong2() {
+        return selectLong2;
+    }
+
+    public void setSelectLong2(double selectLong2) {
+        this.selectLong2 = selectLong2;
+    }
+
+    //指定地点の緯度経度(初期値は現在位置)の退避用
+    double selectLat2;
+    double selectLong2;
 
     // 休憩場所（配列の最後には最終目的地が入る）
     ArrayList<String> breakPlace = new ArrayList<String>();
@@ -46,11 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
     // 初期設定空き時間（現在時刻＋？？分）
     int startspaceminute = 30;
-
-    //緯度経度
-    double lastLong;
-    double lastLat;
-
 
     // 以下ゲッター群--------------------------------------------------------------------------------
 
@@ -98,6 +118,26 @@ public class MainActivity extends AppCompatActivity {
 
     public double getLastLat() {
         return lastLat;
+    }
+
+    public int getLastMove() {
+        return lastMove;
+    }
+
+    public double getNowLong() {
+        return nowLong;
+    }
+
+    public double getNowLat() {
+        return nowLat;
+    }
+
+    public double getSelectLat() {
+        return selectLat;
+    }
+
+    public double getSelectLong() {
+        return selectLong;
     }
 
     // 以下セッター群--------------------------------------------------------------------------------
@@ -148,6 +188,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void setLastLat(double lastLat) {
         this.lastLat = lastLat;
+    }
+
+    public void setLastMove(int lastMove) {
+        this.lastMove = lastMove;
+    }
+
+    public void setNowLong(double nowLong) {
+        this.nowLong = nowLong;
+    }
+
+    public void setNowLat(double nowLat) {
+        this.nowLat = nowLat;
+    }
+
+    public void setSelectLat(double selectLat) {
+        this.selectLat = selectLat;
+    }
+
+    public void setSelectLong(double selectLong) {
+        this.selectLong = selectLong;
     }
 
     // ----------------------------------------------------------------------------------------------
