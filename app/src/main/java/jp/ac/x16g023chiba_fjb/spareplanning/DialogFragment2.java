@@ -9,11 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.NumberPicker;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DialogFragment2 extends android.support.v4.app.DialogFragment implements View.OnClickListener {
+
+    NumberPicker numberPicker;
 
 
     public DialogFragment2() {
@@ -64,6 +67,20 @@ public class DialogFragment2 extends android.support.v4.app.DialogFragment imple
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.dialogButton).setOnClickListener(this);
+        numberPicker = view.findViewById(R.id.numPicker4);
+        int max = ((MainActivity)getActivity()).getSpaceHour() * 60 + ((MainActivity)getActivity()).getSpaceMinute();
+
+        // 空き時間の総計から移動時間を引く
+        for (int move : ((MainActivity)getActivity()).getMoveMinute()){
+            max -= move;
+        }
+        max -= ((MainActivity)getActivity()).getLastMove();
+
+        // 滞在時間のそれぞれが１分以上になるように最大値を調整
+        max -= (((MainActivity)getActivity()).getBreakPlace().size() - 1);
+        numberPicker.setMaxValue(max);
+        numberPicker.setMinValue(1);
+        numberPicker.setValue(((MainActivity)getActivity()).getBreakDuration().get(((MainActivity)getActivity()).getBreakNumber()));
     }
 }
 

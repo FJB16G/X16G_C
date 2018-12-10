@@ -103,7 +103,6 @@ public class FirstFragment extends Fragment implements LocationSource.OnLocation
         numPicker2.setMinValue(0);
         numPicker2.setValue(((MainActivity)getActivity()).reMinute);
 
-
         radioGroup  = view.findViewById(R.id.radiogroup);
         radioGroup.check(R.id.radioButton);
         spaceHourView = view.findViewById(R.id.spacehour);
@@ -222,37 +221,6 @@ public class FirstFragment extends Fragment implements LocationSource.OnLocation
                 flg = false;
                 nextbutton.setEnabled(false);
                 nextbutton.setText("現在位置取得中です、暫くお待ちください・・・" );
-            }
-        });
-
-        //　デバック用
-        view.findViewById(R.id.DebugButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // 休憩場所のデモデータ
-                ArrayList<String> list = new ArrayList<String>();
-                list.add("休憩場所１");
-                list.add("休憩場所２");
-                list.add("休憩場所３");
-                //((MainActivity)getActivity()).setBreakPlace(list);
-                ((MainActivity)getActivity()).setLastPlace("現在位置");
-
-                ArrayList<Integer> list2 = new ArrayList<Integer>();
-                list2.add(1);
-                list2.add(2);
-                list2.add(3);
-                // 最終目的地までの移動時間
-                list2.add(4);
-                //((MainActivity)getActivity()).setMoveMinute(list2);
-
-                ((MainActivity)getActivity()).setSpaceHour(spaceHour);
-                ((MainActivity)getActivity()).setSpaceMinute(spaceMinute);
-                ((MainActivity)getActivity()).setReHour(numPicker1.getValue());
-                ((MainActivity)getActivity()).setReMinute(numPicker2.getValue());
-                ((MainActivity)getActivity()).setNowHour(nowHour);
-                ((MainActivity)getActivity()).setNowMinute(nowMinute);
-                ((MainActivity)getActivity()).changeFragment(ScheduleFragment.class);
             }
         });
     }

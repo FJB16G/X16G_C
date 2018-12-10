@@ -186,13 +186,6 @@
                     android:layout_height="wrap_content"
                     android:text="次へ" />
 
-                <Button
-                    android:id="@+id/DebugButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="デバッグ用（スケジュール画面へ）"
-                    android:textSize="14sp" />
-
 
             </LinearLayout>
 

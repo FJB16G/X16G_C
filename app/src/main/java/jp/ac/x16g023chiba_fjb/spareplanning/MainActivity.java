@@ -1,5 +1,6 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -43,22 +44,6 @@ public class MainActivity extends AppCompatActivity {
     double selectLat;
     double selectLong;
 
-    public double getSelectLat2() {
-        return selectLat2;
-    }
-
-    public void setSelectLat2(double selectLat2) {
-        this.selectLat2 = selectLat2;
-    }
-
-    public double getSelectLong2() {
-        return selectLong2;
-    }
-
-    public void setSelectLong2(double selectLong2) {
-        this.selectLong2 = selectLong2;
-    }
-
     //指定地点の緯度経度(初期値は現在位置)の退避用
     double selectLat2;
     double selectLong2;
@@ -69,8 +54,25 @@ public class MainActivity extends AppCompatActivity {
     // 目的地への移動時間（目的地の配列の番号と、目的地に向かう移動時間の配列の番号が同じになるように）
     ArrayList<Integer> moveMinute = new ArrayList<Integer>(); // 分
 
+    // 滞在時間を格納
+    ArrayList<Integer> breakDuration = new ArrayList<>();
+
     // 初期設定空き時間（現在時刻＋？？分）
     int startspaceminute = 30;
+
+    // ダイアログ受け渡し用
+    int breakNumber;
+
+    public ArrayList<String> getLeaveTime() {
+        return leaveTime;
+    }
+
+    public void setLeaveTime(ArrayList<String> leaveTime) {
+        this.leaveTime = leaveTime;
+    }
+
+    //
+    ArrayList<String> leaveTime = new ArrayList<>();
 
     // 以下ゲッター群--------------------------------------------------------------------------------
 
@@ -138,6 +140,22 @@ public class MainActivity extends AppCompatActivity {
 
     public double getSelectLong() {
         return selectLong;
+    }
+
+    public double getSelectLat2() {
+        return selectLat2;
+    }
+
+    public double getSelectLong2() {
+        return selectLong2;
+    }
+
+    public int getBreakNumber() {
+        return breakNumber;
+    }
+
+    public ArrayList<Integer> getBreakDuration() {
+        return breakDuration;
     }
 
     // 以下セッター群--------------------------------------------------------------------------------
@@ -210,6 +228,22 @@ public class MainActivity extends AppCompatActivity {
         this.selectLong = selectLong;
     }
 
+    public void setSelectLat2(double selectLat2) {
+        this.selectLat2 = selectLat2;
+    }
+
+    public void setSelectLong2(double selectLong2) {
+        this.selectLong2 = selectLong2;
+    }
+
+    public void setBreakNumber(int breakNumber) {
+        this.breakNumber = breakNumber;
+    }
+
+    public void setBreakDuration(ArrayList<Integer> breakDuration) {
+        this.breakDuration = breakDuration;
+    }
+
     // ----------------------------------------------------------------------------------------------
 
     @Override
@@ -234,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
     public void changeFragment(Class c){
         changeFragment(c,null);
     }
+
     public void changeFragment(Class c,Bundle budle){
         try {
             Fragment f = (Fragment) c.newInstance();
@@ -249,5 +284,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void startNotificationService(){
+        //MainActivity送信側
+        Intent intent = new Intent(this,NotificationService.class);
+        intent.putStringArrayListExtra("list",getLeaveTime());
+        startService(intent);
     }
 }
