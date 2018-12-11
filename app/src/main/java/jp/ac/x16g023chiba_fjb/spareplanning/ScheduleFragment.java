@@ -40,9 +40,6 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
     LinearLayout layout;
     int txtSize = 18;
 
-    // ボタン識別用リスト
-    ArrayList<Button> BtID = new ArrayList<Button>();
-
     ArrayList<String> place;
 
     ArrayList<Integer> duration;
@@ -55,12 +52,12 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
 
         //  フィールドの作成
 
-        //現在時刻
+        // 現在時刻
         int nowHour = ((MainActivity) getActivity()).getNowHour();
         int nowMinute = ((MainActivity) getActivity()).getNowMinute();
         int nowTime = conversionMinute(nowHour, nowMinute);
 
-        //戻り時刻と場所名
+        // 戻り時刻と場所名
         int reHour = ((MainActivity) getActivity()).getReHour();
         int reMinute = ((MainActivity) getActivity()).getReMinute();
         int reTime = conversionMinute(reHour, reMinute);
@@ -79,7 +76,7 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         int spaceHour = ((MainActivity) getActivity()).getSpaceHour();
         int spaceMinute = ((MainActivity) getActivity()).getSpaceMinute();
 
-        //ビュー系
+        // ビュー系
         TextView nowTimeView = view.findViewById(R.id.textView1);
         TextView reTimeView = view.findViewById(R.id.textView2);
         TextView spaceTimeView = view.findViewById(R.id.textView3);
@@ -113,16 +110,16 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         }
         duration.add(totalMinute);
 
-        //以下スケジュール作成処理
+        // 以下スケジュール作成処理
 
-        //現在位置時刻設定（文字サイズを統一化するため、ここで設定する）
+        // 現在位置時刻設定（文字サイズを統一化するため、ここで設定する）
         nowTimeView = view.findViewById(R.id.textView1_2);
         nowTimeView.setTextSize(txtSize);
         nowTimeView.setText(conversionTime(nowTime));
         TextView nowPlace = view.findViewById(R.id.NowPlace);
         nowPlace.setTextSize(txtSize);
 
-        //前の場所の出発時間を格納、初期値は現在時刻
+        // 前の場所の出発時間を格納、初期値は現在時刻
         int outPlaceTime = nowTime;
 
         // 一時保存用変数
@@ -131,10 +128,10 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         // アクションバーと連結バーをセットとして表示（placeより要素が１多いmoveMinuteの末尾の値は使わない）
         for (int i = 0; i < place.size(); i++) {
 
-            //連結バーの表示
+            // 連結バーの表示
             verticalLine(moveMinute.get(i));
 
-            //整理用に一時保存
+            // 整理用に一時保存
             work = timeCalculation(outPlaceTime, moveMinute.get(i));
 
             //アクションバーの表示
@@ -143,14 +140,14 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
             // 通知用の値を追加
             leaveTime.add(conversionTime(timeCalculation(work, duration.get(i))));
 
-            //このループの出発時間を次のループの到着時間の計算に使う
+            // このループの出発時間を次のループの到着時間の計算に使う
             outPlaceTime = timeCalculation(work, duration.get(i));
         }
 
-        //戻り場所への移動時間の連結バーを表示する
+        // 戻り場所への移動時間の連結バーを表示する
         verticalLine(((MainActivity) getActivity()).getLastMove());
 
-        //戻り場所のアクションバーの生成と設定
+        // 戻り場所のアクションバーの生成と設定
         reTimeView = view.findViewById(R.id.textView2_2);
         reTimeView.setTextSize(txtSize);
         reTimeView.setText((conversionTime(conversionMinute(reHour, reMinute))));
@@ -158,7 +155,7 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         rePlaceView.setText(rePiace);
         rePlaceView.setTextSize(txtSize);
 
-        //戻りボタン
+        // 戻りボタン
         view.findViewById(R.id.ReturnFirst).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +167,7 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
             }
         });
 
-        //プラン追加ボタン
+        // プラン追加ボタン
         view.findViewById(R.id.addPlans).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,6 +177,7 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
             }
         });
 
+        // ナビ画面ボタン
         view.findViewById(R.id.nextNavi).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -326,31 +324,36 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         p6.weight = 7.0f;
         LL_ThirdStage.addView(textView4, p6);
 
-        Button button = new Button(getActivity());
-        button.setText("編集");
-        button.setTextSize(txtSize);
-        button.setTextColor(Color.rgb(255, 255, 255));
-        button.setBackgroundColor(Color.rgb(255, 136, 0));
-        LinearLayout.LayoutParams p8 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        p8.weight = 1.0f;
-        LL_ThirdStage.addView(button, p8);
-        // ボタン識別用
-        BtID.add(button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).setBreakDuration(duration);
-                ((MainActivity) getActivity()).setBreakNumber(number);
-                //フラグメントのインスタンスを作成
-                DialogFragment2 f = new DialogFragment2();
-                //ダイアログのボタンが押された場合の動作
-                f.setOnDialogButtonListener(ScheduleFragment.this);
-                //フラグメントをダイアログとして表示
-                f.show(getFragmentManager(), "");
-            }
-        });
+        if (this.place.size() > 1) {
+            Button button = new Button(getActivity());
+            button.setText("編集");
+            button.setTextSize(txtSize);
+            button.setTextColor(Color.rgb(255, 255, 255));
+            button.setBackgroundColor(Color.rgb(255, 136, 0));
+            LinearLayout.LayoutParams p8 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            p8.weight = 1.0f;
+            LL_ThirdStage.addView(button, p8);
+            // 滞在時間編集
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((MainActivity) getActivity()).setBreakDuration(duration);
+                    ((MainActivity) getActivity()).setBreakNumber(number);
+
+                    //フラグメントのインスタンスを作成
+                    DialogFragment2 f = new DialogFragment2();
+
+                    //ダイアログのボタンが押された場合の動作
+                    f.setOnDialogButtonListener(ScheduleFragment.this);
+
+                    //フラグメントをダイアログとして表示
+                    f.show(getFragmentManager(), "");
+                }
+            });
+        }
     }
 
+    // ダイアログ実行後の処理
     @Override
     public void onDialogButton(int value) {
 
