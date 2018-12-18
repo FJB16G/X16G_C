@@ -183,7 +183,8 @@ public class FirstFragment extends Fragment implements LocationSource.OnLocation
                 // GPSの停止
                 ls.deactivate();
                 if (radioGroup.getCheckedRadioButtonId() == R.id.radioButton){
-
+                    ((MainActivity)getActivity()).setLastLat(((MainActivity)getActivity()).getNowLat());
+                    ((MainActivity)getActivity()).setLastLong(((MainActivity)getActivity()).getNowLong());
                     //カテゴリ選択画面に遷移
                     ((MainActivity)getActivity()).changeFragment(CategoryFragment.class);
                 }else {

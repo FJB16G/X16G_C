@@ -45,7 +45,6 @@ public class NotificationService extends Service {
 
     //サービスが初めて実行されたとき一度だけ実行されるメソッド
     public void onCreate() {
-        setMessage();
     }
 
     //サービスを停止するメソッド
@@ -60,16 +59,14 @@ public class NotificationService extends Service {
 
         // メインアクティビティからの値を受け取る
         list = intent.getStringArrayListExtra("list");
-
+        System.out.println(list.size());
+        setMessage();
         return super.onStartCommand(intent, flags, startId);
     }
 
     //通知を出すメソッド
     void setMessage() {
 
-        for (String a : list){
-            System.out.println(a);
-        }
 
         //タイマー処理の作成
         TimerTask timerTask = new TimerTask() {

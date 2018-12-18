@@ -2,19 +2,28 @@ package jp.ac.x16g023chiba_fjb.spareplanning;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.PlacePhotoMetadata;
+import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
+import com.google.android.gms.location.places.PlacePhotoMetadataResponse;
+import com.google.android.gms.location.places.PlacePhotoResponse;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
@@ -26,19 +35,23 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
-public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, RouteReader.RouteListener, RouteReader.PlaceListener, LocationSource.OnLocationChangedListener, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener, View.OnClickListener {
+public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,RouteReader.PlaceListener, LocationSource.OnLocationChangedListener, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener, View.OnClickListener {
 
     //フィールドの生成
     private GoogleMap mMap;
     android.location.Location loc;
     MyLocationSource ls;
-    boolean flg = true;
     double Long;
     double Lat;
     float[] results = new float[1];
+    LinearLayout layout;
+    String API_KEY = "AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +63,7 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        layout = getView().findViewById(R.id.shopLayout);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -91,19 +105,16 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
         // 選択位置を中心にマップを移動
         LatLng sydney = new LatLng(((MainActivity)getActivity()).getSelectLat(),((MainActivity)getActivity()).getSelectLong());  //位置設定
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17.0f));   //範囲2.0～21.0(全体～詳細)
-    }
 
-    @Override
-    public void onRoute(RouteData routeData) {
-//        //ルート受け取り処理
-//        if(routeData != null && routeData.routes.length > 0 && routeData.routes[0].legs.length > 0){
-//            RouteData.Routes r = routeData.routes[0];
-//            Location start = r.legs[0].start_location;
-//            Location end = r.legs[0].end_location;
-//
-//            RouteReader.recvPlace("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y",
-//                    "cafe",new LatLng(start.lat, start.lng),500,this);
-//        }
+        RouteReader.recvPlace("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y",
+                ((MainActivity)getActivity()).searchText, new LatLng(Lat,Long), 500, this);
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                layout.removeAllViews();
+            }
+        });
     }
 
     @Override
@@ -114,11 +125,14 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
         for(PlaceData.Results result : placeData.results){
             System.out.println(result.geometry.location.lat+","+result.geometry.location.lng);
             System.out.println(result.name);
-            Location loc = result.geometry.location;
+            if(result.photos!=null && result.photos.length>0)
+                System.out.println("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + result.photos[0].photo_reference + "&key=AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y");
+            PlaceData.LatLng loc = result.geometry.location;
             MarkerOptions op = new MarkerOptions();
             op.position(new LatLng(loc.lat, loc.lng));
             op.title(result.name);
-
+            Marker m = mMap.addMarker(op);
+            m.setTag(result);
             // 現在選択中のピンの場合ピン生成を無視（後に生成）
             if (!(loc.lat == Lat && loc.lng == Long)){
                 mMap.addMarker(op);
@@ -127,7 +141,6 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
 
         // 選択中の場所が検索地点以外の場合
         if (!(Lat == ((MainActivity)getActivity()).getNowLat() && Long == ((MainActivity)getActivity()).getNowLong())){
-
             MarkerOptions op = new MarkerOptions();
             op.position(new LatLng(Lat,Long));
             // 色
@@ -167,12 +180,6 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
     @Override
     public void onLocationChanged(android.location.Location location) {
         loc = location;
-        //初回のみ周辺の情報を取得する
-        if (flg) {
-            RouteReader.recvPlace("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y",
-                    ((MainActivity)getActivity()).searchText, new LatLng(Lat,Long), 500, this);
-            flg = false;
-        }
     }
 
     @Override
@@ -186,24 +193,36 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
     //マーカークリック処理
     @Override
     public boolean onMarkerClick(final Marker marker) {
-
-        // 追加するレイアウト
-        LinearLayout layout = getView().findViewById(R.id.shopData);
-
         //すべてのマーカーを削除
         layout.removeAllViews();
 
+        if (marker.getTag() != null) {
+            ImageView imageView = new ImageView(getActivity());
+            PlaceData.Results pt = (PlaceData.Results) marker.getTag();
+            if (pt.photos != null && pt.photos.length > 0) {
+                PlaceData.Photo photo = pt.photos[0];
+                AsyncImage asyncImage = new AsyncImage(imageView);
+                String url = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&maxheight=250&photoreference=%s&key=%s",
+                        photo.photo_reference, API_KEY);
+                asyncImage.execute(url);
+                LinearLayout.LayoutParams pImg = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                pImg.gravity = Gravity.LEFT;
+                pImg.setMargins(5,5,0,0);
+                layout.addView(imageView,pImg);
+            }
+        }
+
+        LinearLayout LL = new LinearLayout(getActivity());
+        LL.setOrientation(LinearLayout.VERTICAL);
+        LL.setBackgroundColor(Color.rgb(255,255,255));
+        layout.addView(LL);
+
         // 選択マーカーがゴール地点の場合
         if (marker.getTitle().toString().equals(((MainActivity)getActivity()).lastPlace)){
-            TextView textView = new TextView(getActivity());
-            textView.setText("ゴール地点です");
-            layout.addView(textView);
-
+            //何も表示しない
         // 選択マーカーがゴール地点以外の場合
         }else if (marker.getTitle().toString().equals("検索地点")){
-            TextView textView = new TextView(getActivity());
-            textView.setText("検索地点です");
-            layout.addView(textView);
+            //何も表示しない
         } else {
             //二点間の最短距離の計算
             loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,((MainActivity)getActivity()).getSelectLat(),((MainActivity)getActivity()).getSelectLong(), results);
@@ -212,22 +231,34 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback, Ro
             System.out.println(marker.getTitle() + "\n" + (float)(results[0]) + "m , " + (int)(results[0]/60) + "分");
 
             // レイアウトの生成
+            FrameLayout FL_Coler = new FrameLayout(getActivity());
+            FL_Coler.setBackgroundColor(Color.rgb(255, 136, 0));
+            LinearLayout.LayoutParams pColor = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 10);
+            pColor.setMargins(10,10,10,10);
+            LL.addView(FL_Coler, pColor);
             // 店舗名
             TextView textView = new TextView(getActivity());
             textView.setText(marker.getTitle().toString());
             textView.setTextSize(30);
-            layout.addView(textView);
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            p.setMargins(10,10,0,0);
+            LL.addView(textView , p);
             // 現在地点からタップしたマーカーまでの移動時間
             TextView textView2 = new TextView(getActivity());
             textView2.setText((int) (results[0]) + "m , " + (int)(results[0]/60) + "分");
             textView2.setTextSize(15);
-            layout.addView(textView2);
+            LinearLayout.LayoutParams p2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            p2.setMargins(10,10,0,0);
+            LL.addView(textView2,p2);
+
             // 決定ボタン
             Button button = new Button(getActivity());
             button.setText("ここで休む");
             button.setBackgroundColor(Color.rgb(255,187,51));
             button.setTextColor(Color.rgb(255,255,255));
-            layout.addView(button);
+            LinearLayout.LayoutParams p3 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            p3.setMargins(10,10,10,10);
+            LL.addView(button,p3);
 
             //休憩場所決定処理
             button.setOnClickListener(new View.OnClickListener() {

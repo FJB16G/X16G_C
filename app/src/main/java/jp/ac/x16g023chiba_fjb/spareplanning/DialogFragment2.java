@@ -43,7 +43,7 @@ public class DialogFragment2 extends android.support.v4.app.DialogFragment imple
         //リスナーに登録されているメソッドを呼び出す
         if(mListener != null) {
             if (v.getId() == R.id.dialogButton)
-                mListener.onDialogButton(numberPicker.getValue());
+                mListener.onDialogButton(((MainActivity)getActivity()).getBreakDuration().get(((MainActivity)getActivity()).getBreakNumber()) - numberPicker.getValue());
         }
         //ダイアログを閉じる
         getDialog().cancel();

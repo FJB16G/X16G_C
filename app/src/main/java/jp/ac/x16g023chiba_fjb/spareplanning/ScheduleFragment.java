@@ -38,13 +38,18 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
     }
 
     LinearLayout layout;
+    TextView reTimeView;
     int txtSize = 18;
+    int nowTime;
+    int reTime;
 
     ArrayList<String> place;
 
     ArrayList<Integer> duration;
 
     ArrayList<String> leaveTime = new ArrayList<>();
+
+    ArrayList<Integer> moveMinute;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -53,15 +58,15 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         //  フィールドの作成
 
         // 現在時刻
-        int nowHour = ((MainActivity) getActivity()).getNowHour();
-        int nowMinute = ((MainActivity) getActivity()).getNowMinute();
-        int nowTime = conversionMinute(nowHour, nowMinute);
+        final int nowHour = ((MainActivity) getActivity()).getNowHour();
+        final int nowMinute = ((MainActivity) getActivity()).getNowMinute();
+        nowTime = conversionMinute(nowHour, nowMinute);
 
         // 戻り時刻と場所名
-        int reHour = ((MainActivity) getActivity()).getReHour();
-        int reMinute = ((MainActivity) getActivity()).getReMinute();
-        int reTime = conversionMinute(reHour, reMinute);
-        String rePiace = ((MainActivity) getActivity()).getLastPlace();
+        final int reHour = ((MainActivity) getActivity()).getReHour();
+        final int reMinute = ((MainActivity) getActivity()).getReMinute();
+        reTime = conversionMinute(reHour, reMinute);
+        final String rePiace = ((MainActivity) getActivity()).getLastPlace();
 
         // 目的地１番～戻り場所の一つ前まで
         place = ((MainActivity) getActivity()).getBreakPlace();
@@ -70,7 +75,7 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         duration = new ArrayList<>();
 
         // 現在位置→目的地１番目～戻り場所の一つ前→戻り場所　（要素数はPlaceより１多くなる）
-        ArrayList<Integer> moveMinute = ((MainActivity) getActivity()).getMoveMinute();
+        moveMinute = ((MainActivity) getActivity()).getMoveMinute();
 
         // 空き時間
         int spaceHour = ((MainActivity) getActivity()).getSpaceHour();
@@ -78,7 +83,7 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
 
         // ビュー系
         TextView nowTimeView = view.findViewById(R.id.textView1);
-        TextView reTimeView = view.findViewById(R.id.textView2);
+        reTimeView = view.findViewById(R.id.textView2);
         TextView spaceTimeView = view.findViewById(R.id.textView3);
         layout = view.findViewById(R.id.ScheduleMain);
 
@@ -147,10 +152,10 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         // 戻り場所への移動時間の連結バーを表示する
         verticalLine(((MainActivity) getActivity()).getLastMove());
 
-        // 戻り場所のアクションバーの生成と設定
+        // 戻り場所のアクションバーの設定
         reTimeView = view.findViewById(R.id.textView2_2);
         reTimeView.setTextSize(txtSize);
-        reTimeView.setText((conversionTime(conversionMinute(reHour, reMinute))));
+        reTimeView.setText((conversionTime(reTime)));
         TextView rePlaceView = view.findViewById(R.id.RePlace);
         rePlaceView.setText(rePiace);
         rePlaceView.setTextSize(txtSize);
@@ -182,7 +187,8 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).setLeaveTime(leaveTime);
-                ((MainActivity) getActivity()).startNotificationService();
+                //((MainActivity) getActivity()).startNotificationService();
+                ((MainActivity) getActivity()).changeFragment(NaviFragment.class);
             }
         });
     }
@@ -324,7 +330,6 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         p6.weight = 7.0f;
         LL_ThirdStage.addView(textView4, p6);
 
-        if (this.place.size() > 1) {
             Button button = new Button(getActivity());
             button.setText("編集");
             button.setTextSize(txtSize);
@@ -350,12 +355,61 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
                     f.show(getFragmentManager(), "");
                 }
             });
-        }
-    }
 
-    // ダイアログ実行後の処理
+    }
+    int point;
+    // ダイアログ実行後の処理(valueには対象の滞在時間の変化分が入る)
     @Override
     public void onDialogButton(int value) {
+        layout.removeAllViews();
+        leaveTime.clear();
+        point -= value;
+        duration.set(((MainActivity) getActivity()).getBreakNumber(),duration.get(((MainActivity) getActivity()).getBreakNumber()) - value);
 
+        // 前の場所の出発時間を格納、初期値は現在時刻
+        int outPlaceTime = nowTime;
+
+        // 一時保存用変数
+        int work;
+
+        for (int i = 0; i < place.size(); i++) {
+            // 連結バーの表示
+            verticalLine(moveMinute.get(i));
+
+            // 整理用に一時保存
+            work = timeCalculation(outPlaceTime, moveMinute.get(i));
+
+            //アクションバーの表示
+            horizontalLine(place.get(i), work, timeCalculation(work, duration.get(i)), duration.get(i), i);
+
+            // 通知用の値を追加
+            leaveTime.add(conversionTime(timeCalculation(work, duration.get(i))));
+
+            // このループの出発時間を次のループの到着時間の計算に使う
+            outPlaceTime = timeCalculation(work, duration.get(i));
+        }
+        // 戻り場所への移動時間の連結バーを表示する
+        verticalLine(((MainActivity) getActivity()).getLastMove());
+        reTime -= value;
+        reTimeView.setText(conversionTime(reTime));
+        FrameLayout hint = getView().findViewById(R.id.hint);
+        hint.removeAllViews();
+        if (point != 0){
+            TextView textView = new TextView(getActivity());
+            textView.setTextSize(txtSize);
+            if (point > 0){
+                textView.setText("休憩時間が " + point + " 分超過しています");
+                textView.setPadding(25,25,25,25);
+                textView.setTextColor(Color.rgb(255, 0, 0));
+                textView.setBackgroundColor(Color.rgb(220, 220, 220));
+            }else {
+                textView.setText("休憩時間 " + Math.abs(point) + " 分割り振れます");
+                textView.setPadding(25,25,25,25);
+                textView.setTextColor(Color.rgb(255, 255, 255));
+                textView.setBackgroundColor(Color.rgb(255, 136, 0));
+            }
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            hint.addView(textView,p);
+        }
     }
 }

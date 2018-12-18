@@ -16,6 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -53,6 +54,7 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
     double Lat;
     double Long;
     String name;
+    LinearLayout layout;
 
     public GoalFragment() {
         // Required empty public constructor
@@ -70,6 +72,7 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        layout = view.findViewById(R.id.Decision);
         kensaku = view.findViewById(R.id.search);
         kensaku.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -80,7 +83,8 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
                     mPlaces.search(mMap,v.getText().toString(), new PlacesAPI.PlaceListener() {
                         @Override
                         public void onPlaces(List<Place> places) {
-                            removeMarker();
+                            //removeMarker();
+                            mMap.clear();
                             if (places != null) {
                                 //マーカーの設置
                                 for (Place p : places) {
@@ -108,6 +112,7 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
                 // ソフトキーボードを非表示にする
                 InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                kensaku.setCursorVisible(false);
                 return handled;
             }
         });
@@ -150,9 +155,28 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
         settings.setMyLocationButtonEnabled(true);
         //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mMap.setOnMarkerClickListener(this);
-        LatLng sydney = new LatLng(35.7016369, 139.9836126);             //位置設定
+        LatLng sydney = new LatLng(((MainActivity)getActivity()).getNowLat(), ((MainActivity)getActivity()).getNowLong());             //位置設定
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15.0f));   //範囲2.0～21.0(全体～詳細)
 
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                mMap.clear();
+                MarkerOptions op = new MarkerOptions();
+                op.title("タップした地点");
+                op.position(latLng);
+                BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+                op.icon(icon);
+                mMap.addMarker(op);
+            }
+        });
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                layout.removeAllViews();
+            }
+        });
         //Toast.makeText(getContext(), "検索開始",Toast.LENGTH_SHORT).show();
     }
 
@@ -176,7 +200,6 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
         Lat = marker.getPosition().latitude;
         Long = marker.getPosition().longitude;
         name = marker.getTitle();
-        LinearLayout layout = getView().findViewById(R.id.Decision);
         layout.removeAllViews();
         Button button = new Button(getActivity());
         button.setText("決定");
@@ -190,6 +213,7 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
         return false;
     }
 
+
     @Override
     public void onClick(View v) {
         //値を受け渡してカテゴリ画面へ
@@ -198,4 +222,9 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
         ((MainActivity)getActivity()).setLastLong(Long);
         ((MainActivity)getActivity()).changeFragment(CategoryFragment.class);
     }
+
+
+
+
+
 }
