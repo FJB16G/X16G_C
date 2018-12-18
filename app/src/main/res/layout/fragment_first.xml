@@ -184,7 +184,8 @@
                     android:id="@+id/first_nextbutton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="次へ" />
+                    android:background="#ffc864"
+                    android:textColor="@android:color/background_light" />
 
 
             </LinearLayout>

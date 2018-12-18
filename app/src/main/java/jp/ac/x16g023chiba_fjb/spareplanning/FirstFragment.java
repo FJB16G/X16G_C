@@ -1,6 +1,7 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
 
 
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -146,12 +147,14 @@ public class FirstFragment extends Fragment implements LocationSource.OnLocation
                         //現在位置取得後実行
                         if (flg) {
                             //一定以下の空き時間の時次へのボタンを押せないように
-                            if (ji == 0 && fun < 2) {
+                            if (ji == 0 && fun < 30) {
                                 nextbutton.setEnabled(false);
                                 nextbutton.setText(startSpaceMinute + "分以上の空き時間を設定してください");
+                                nextbutton.setBackgroundColor(Color.rgb(255, 200, 100));
                             } else {
                                 nextbutton.setEnabled(true);
                                 nextbutton.setText("次へ");
+                                nextbutton.setBackgroundColor(Color.rgb(255, 136, 0));
                             }
                         }
                         agoTime = numPicker2.getValue();
@@ -222,6 +225,7 @@ public class FirstFragment extends Fragment implements LocationSource.OnLocation
                 flg = false;
                 nextbutton.setEnabled(false);
                 nextbutton.setText("現在位置取得中です、暫くお待ちください・・・" );
+                nextbutton.setBackgroundColor(Color.rgb(255, 200, 100));
             }
         });
     }

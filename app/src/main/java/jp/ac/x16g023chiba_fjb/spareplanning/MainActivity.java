@@ -11,26 +11,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    public ArrayList<String> getBreakLat() {
-        return breakLat;
-    }
-
-    public void setBreakLat(ArrayList<String> breakLat) {
-        this.breakLat = breakLat;
-    }
-
-    public ArrayList<String> getBreakLong() {
-        return breakLong;
-    }
-
-    public void setBreakLong(ArrayList<String> breakLong) {
-        this.breakLong = breakLong;
-    }
-
-    ArrayList<String> breakLat = new ArrayList<>();
-    ArrayList<String> breakLong = new ArrayList<>();
-
     // 現在時刻
     int nowHour;       // 時
     int nowMinute;     // 分
@@ -70,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
     // 休憩場所（配列の最後には最終目的地が入る）
     ArrayList<String> breakPlace = new ArrayList<String>();
+
+    ArrayList<String> breakLat = new ArrayList<>();
+    ArrayList<String> breakLong = new ArrayList<>();
 
     // 目的地への移動時間（目的地の配列の番号と、目的地に向かう移動時間の配列の番号が同じになるように）
     ArrayList<Integer> moveMinute = new ArrayList<Integer>(); // 分
@@ -178,6 +161,14 @@ public class MainActivity extends AppCompatActivity {
         return breakDuration;
     }
 
+    public ArrayList<String> getBreakLat() {
+        return breakLat;
+    }
+
+    public ArrayList<String> getBreakLong() {
+        return breakLong;
+    }
+
     // 以下セッター群--------------------------------------------------------------------------------
 
     public void setNowHour(int nowHour) {
@@ -262,6 +253,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void setBreakDuration(ArrayList<Integer> breakDuration) {
         this.breakDuration = breakDuration;
+    }
+
+    public void setBreakLat(ArrayList<String> breakLat) {
+        this.breakLat = breakLat;
+    }
+
+    public void setBreakLong(ArrayList<String> breakLong) {
+        this.breakLong = breakLong;
     }
 
     // ----------------------------------------------------------------------------------------------

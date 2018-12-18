@@ -4,13 +4,11 @@ package jp.ac.x16g023chiba_fjb.spareplanning;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -37,7 +35,6 @@ public class NotificationService extends Service {
     int cnt=0;
 
     //ここに退出時間を格納してね♪
-    //String msg = "9:55";
     List<String> list = new ArrayList();
 
     public NotificationService() {
@@ -59,20 +56,15 @@ public class NotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         // メインアクティビティからの値を受け取る
-        if(intent!=null) {
         list = intent.getStringArrayListExtra("list");
-            System.out.println(list.size());
-            setMessage();
-        }
+        System.out.println("リスト数　：" + list.size());
+        setMessage();
         return START_REDELIVER_INTENT;
-        //return super.onStartCommand(intent, flags, startId);
     }
 
     //通知を出すメソッド
     void setMessage() {
 
-
-//        //<><><><><>追加<><><><><>
 //        //遷移するActivityの登録 1行目の「Output.class」の部分に通知をタップした時に遷移する先のクラス名を入れる
 //        Intent resultIntent = new Intent(NotificationService.this, Output.class);
 //        final PendingIntent resultPendingIntent = PendingIntent.getActivity(
@@ -81,7 +73,6 @@ public class NotificationService extends Service {
 //                resultIntent,
 //                PendingIntent.FLAG_UPDATE_CURRENT
 //        );
-//        //<><><><><>追加<><><><><>
 
         //タイマー処理の作成
         TimerTask timerTask = new TimerTask() {
@@ -114,8 +105,7 @@ public class NotificationService extends Service {
                                 NotificationManager.IMPORTANCE_DEFAULT
                         );
 
-                        // 通知時のライトの色
-                        channel.setLightColor(Color.GREEN);
+
                         // ロック画面で通知を表示するかどうか
                         channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
                         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
@@ -134,12 +124,10 @@ public class NotificationService extends Service {
                         //おおきなアイコン
                         builder.setLargeIcon(largeIcon);
 
-                        //<><><><><>追加<><><><><>
                         //通知をクリックしたときの処理群
                         //builder.setContentIntent(resultPendingIntent) ;
                         builder.setAutoCancel(true);
                         builder.build().flags |= Notification.FLAG_AUTO_CANCEL;
-                        //<><><><><>追加<><><><><>
 
 
                         manager.notify(NOTIFY_ID,builder.build());
@@ -151,13 +139,9 @@ public class NotificationService extends Service {
                         builder.setContentTitle(getString(R.string.app_name));  //タイトルをアプリ名に設定
                         builder.setContentText("予定の時間が迫ってます");      //通知内容
 
-                        //<><><><><>追加<><><><><>
                         builder.setAutoCancel(true);//クリック時に自動で通知が消える
                         //builder.setContentIntent(resultPendingIntent);//アプリ起動
                         builder.build().flags |= Notification.FLAG_AUTO_CANCEL;//クリック時に自動で通知が消える
-                        //<><><><><>追加<><><><><>
-
-
 
                         //通知を登録
                         NotificationManagerCompat manager = NotificationManagerCompat.from(NotificationService.this);
@@ -169,9 +153,7 @@ public class NotificationService extends Service {
                     //配列内の時間すべてと比較し終わったらサービスを停止させる
                     if(cnt==list.size()){
                         stopSelf();
-                        //<><><><><>追加<><><><><>
                         mTimer.cancel();
-                        //<><><><><>追加<><><><><>
                     }
                 }
             }
