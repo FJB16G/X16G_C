@@ -187,8 +187,8 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).setLeaveTime(leaveTime);
-                //((MainActivity) getActivity()).startNotificationService();
-                ((MainActivity) getActivity()).changeFragment(NaviFragment.class);
+                ((MainActivity) getActivity()).startNotificationService();
+                //((MainActivity) getActivity()).changeFragment(NaviFragment.class);
             }
         });
     }

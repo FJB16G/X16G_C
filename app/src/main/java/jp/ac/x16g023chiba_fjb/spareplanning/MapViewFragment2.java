@@ -286,6 +286,9 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
                     // GPSを停止
                     ls.deactivate();
 
+                    ((MainActivity)getActivity()).getBreakLat().add(String.valueOf(marker.getPosition().latitude));
+                    ((MainActivity)getActivity()).getBreakLong().add(String.valueOf(marker.getPosition().longitude));
+
                     ((MainActivity)getActivity()).setSelectLat2(marker.getPosition().latitude);
                     ((MainActivity)getActivity()).setSelectLong2(marker.getPosition().longitude);
 

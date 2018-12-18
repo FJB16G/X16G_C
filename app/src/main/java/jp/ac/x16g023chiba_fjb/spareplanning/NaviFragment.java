@@ -41,7 +41,6 @@ public class NaviFragment extends Fragment implements LocationSource.OnLocationC
         ls.activate(this);
 
         // 起点
-
         String src_lat = String.valueOf(((MainActivity) getActivity()).getNowLat());
         String src_ltg = String.valueOf(((MainActivity) getActivity()).getNowLong());
 
@@ -50,15 +49,10 @@ public class NaviFragment extends Fragment implements LocationSource.OnLocationC
         String des_ltg = String.valueOf(((MainActivity) getActivity()).getLastLong());
 
         //経由地
-        ArrayList <String> lat = new ArrayList<>();
+        ArrayList <String> lat = ((MainActivity) getActivity()).getBreakLat();
 
-        lat.add("35.700204");
-        lat.add("35.701851");
+        ArrayList <String> lng = ((MainActivity) getActivity()).getBreakLong();
 
-        ArrayList <String> lng = new ArrayList<>();
-
-        lng.add("139.985550");
-        lng.add("139.983522");
 
         // 移動手段：電車:r, 車:d, 歩き:w
         String[] dir = {"r", "d", "w"};

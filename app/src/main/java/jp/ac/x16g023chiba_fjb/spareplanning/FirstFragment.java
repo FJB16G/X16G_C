@@ -146,7 +146,7 @@ public class FirstFragment extends Fragment implements LocationSource.OnLocation
                         //現在位置取得後実行
                         if (flg) {
                             //一定以下の空き時間の時次へのボタンを押せないように
-                            if (ji == 0 && fun < 30) {
+                            if (ji == 0 && fun < 2) {
                                 nextbutton.setEnabled(false);
                                 nextbutton.setText(startSpaceMinute + "分以上の空き時間を設定してください");
                             } else {

@@ -4,6 +4,7 @@ package jp.ac.x16g023chiba_fjb.spareplanning;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -58,15 +59,29 @@ public class NotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         // メインアクティビティからの値を受け取る
+        if(intent!=null) {
         list = intent.getStringArrayListExtra("list");
-        System.out.println(list.size());
-        setMessage();
-        return super.onStartCommand(intent, flags, startId);
+            System.out.println(list.size());
+            setMessage();
+        }
+        return START_REDELIVER_INTENT;
+        //return super.onStartCommand(intent, flags, startId);
     }
 
     //通知を出すメソッド
     void setMessage() {
 
+
+//        //<><><><><>追加<><><><><>
+//        //遷移するActivityの登録 1行目の「Output.class」の部分に通知をタップした時に遷移する先のクラス名を入れる
+//        Intent resultIntent = new Intent(NotificationService.this, Output.class);
+//        final PendingIntent resultPendingIntent = PendingIntent.getActivity(
+//                NotificationService.this,
+//                0,
+//                resultIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT
+//        );
+//        //<><><><><>追加<><><><><>
 
         //タイマー処理の作成
         TimerTask timerTask = new TimerTask() {
@@ -79,15 +94,17 @@ public class NotificationService extends Service {
                 nowMinute = time.minute;
                 date = nowHour + ":" + nowMinute;
                 String i = list.get(cnt);
+
                 //現在時刻と退出時間の比較
                 if(date.equals(list.get(cnt))){
-
                     //通知内容の構築
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         //API level 26 以上
+                        //Managerが通知を発行
                         NotificationManager manager = (NotificationManager)
                                 getSystemService(Context.NOTIFICATION_SERVICE);
 
+                        //チャンネルを作成
                         NotificationChannel channel = new NotificationChannel(
                                 // アプリでユニークな ID
                                 "channel_1",
@@ -104,20 +121,28 @@ public class NotificationService extends Service {
                         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
                         // 端末にチャンネルを登録し、「設定」で見れるようにする
                         manager.createNotificationChannel(channel);
-                        Notification notification = new Notification.Builder(NotificationService.this)
-                                //タイトル
-                                .setContentTitle("Spare Planning")
-                                //メッセージ
-                                .setContentText("予定の時間が迫ってます")
-                                //小さなアイコン
-                                .setSmallIcon(R.drawable.notification3)
-                                .setChannelId("channel_1")
-                                //おおきなアイコン
-                                .setLargeIcon(largeIcon)
-                                //通知を表示
-                                .build();
 
-                        manager.notify(NOTIFY_ID, notification);
+                        //通知の内容を作成
+                        Notification.Builder builder = new Notification.Builder(NotificationService.this);
+                        //タイトル
+                        builder.setContentTitle("Spare Planning");
+                        //メッセージ
+                        builder.setContentText("予定の時間が迫ってます");
+                        //小さなアイコン
+                        builder.setSmallIcon(R.drawable.notification3);
+                        builder.setChannelId("channel_1");
+                        //おおきなアイコン
+                        builder.setLargeIcon(largeIcon);
+
+                        //<><><><><>追加<><><><><>
+                        //通知をクリックしたときの処理群
+                        //builder.setContentIntent(resultPendingIntent) ;
+                        builder.setAutoCancel(true);
+                        builder.build().flags |= Notification.FLAG_AUTO_CANCEL;
+                        //<><><><><>追加<><><><><>
+
+
+                        manager.notify(NOTIFY_ID,builder.build());
                     } else {
                         //APIレベル25以下
                         //通知内容の構築
@@ -125,6 +150,14 @@ public class NotificationService extends Service {
                         builder.setSmallIcon(R.drawable.notification3);             //アイコンの指定
                         builder.setContentTitle(getString(R.string.app_name));  //タイトルをアプリ名に設定
                         builder.setContentText("予定の時間が迫ってます");      //通知内容
+
+                        //<><><><><>追加<><><><><>
+                        builder.setAutoCancel(true);//クリック時に自動で通知が消える
+                        //builder.setContentIntent(resultPendingIntent);//アプリ起動
+                        builder.build().flags |= Notification.FLAG_AUTO_CANCEL;//クリック時に自動で通知が消える
+                        //<><><><><>追加<><><><><>
+
+
 
                         //通知を登録
                         NotificationManagerCompat manager = NotificationManagerCompat.from(NotificationService.this);
@@ -136,6 +169,9 @@ public class NotificationService extends Service {
                     //配列内の時間すべてと比較し終わったらサービスを停止させる
                     if(cnt==list.size()){
                         stopSelf();
+                        //<><><><><>追加<><><><><>
+                        mTimer.cancel();
+                        //<><><><><>追加<><><><><>
                     }
                 }
             }

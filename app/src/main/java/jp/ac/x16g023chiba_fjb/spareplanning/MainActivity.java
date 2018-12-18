@@ -11,6 +11,26 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    public ArrayList<String> getBreakLat() {
+        return breakLat;
+    }
+
+    public void setBreakLat(ArrayList<String> breakLat) {
+        this.breakLat = breakLat;
+    }
+
+    public ArrayList<String> getBreakLong() {
+        return breakLong;
+    }
+
+    public void setBreakLong(ArrayList<String> breakLong) {
+        this.breakLong = breakLong;
+    }
+
+    ArrayList<String> breakLat = new ArrayList<>();
+    ArrayList<String> breakLong = new ArrayList<>();
+
     // 現在時刻
     int nowHour;       // 時
     int nowMinute;     // 分
@@ -291,5 +311,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,NotificationService.class);
         intent.putStringArrayListExtra("list",getLeaveTime());
         startService(intent);
+        changeFragment(NaviFragment.class);
     }
 }
