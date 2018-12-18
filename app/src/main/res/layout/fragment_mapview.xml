@@ -16,9 +16,16 @@
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+<<<<<<< HEAD
         android:layout_marginTop="5dp"
         android:layout_marginRight="60dp"
         android:orientation="vertical">
+=======
+        android:layout_marginTop="60dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -55,13 +62,24 @@
     </LinearLayout>
 
     <LinearLayout
+<<<<<<< HEAD
         android:id="@+id/shopData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/cast_expanded_controller_text_color"
+=======
+        android:id="@+id/shopLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
         android:orientation="vertical">
 
     </LinearLayout>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
 </FrameLayout>

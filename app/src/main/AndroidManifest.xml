@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jp.ac.x16g023chiba_fjb.spareplanning">
-    <uses-permission android:name="android.permission.LOCATION" />
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
@@ -19,19 +20,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"></activity>
 
+<<<<<<< HEAD
         </activity>
 
         <activity android:name=".Map2">
 
         </activity>
+=======
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y" />
-        <uses-library android:name="org.apache.http.legacy"
-            android:required="false"/>
 
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <service
+            android:name=".NotificationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

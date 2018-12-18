@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 public class SplashActivity extends AppCompatActivity{
     private final int REQUEST_PERMISSION = 1000;
     private LocationManager nlLocationManager;
@@ -95,6 +96,32 @@ public class SplashActivity extends AppCompatActivity{
         Handler hdl = new Handler();
         // 500ms遅延させてsplashHandlerを実行します。　
         hdl.postDelayed(new splashHandler(), 1000);
+=======
+public class SplashActivity extends Activity {
+    private Permission mPermission;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // タイトルを非表示にします。
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // splash.xmlをViewに指定します。
+        setContentView(R.layout.splash);
+
+        //Android6.0以降用パーミッション設定
+        mPermission = new Permission();
+        mPermission.setOnResultListener(new Permission.ResultListener() {
+            @Override
+            public void onResult() {
+                //パーミッション設定完了後の初期化処理を入れる
+                Handler hdl = new Handler();
+                // 500ms遅延させてsplashHandlerを実行します。　
+                hdl.postDelayed(new splashHandler(), 1000);
+            }
+        });
+        mPermission.requestPermissions(this);
+
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
     }
 
     @Override
@@ -112,5 +139,9 @@ public class SplashActivity extends AppCompatActivity{
             // SplashActivityを終了させます。
             SplashActivity.this.finish();
         }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        mPermission.onRequestPermissionsResult(requestCode,permissions,grantResults);
     }
 }

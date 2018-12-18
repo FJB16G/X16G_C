@@ -124,6 +124,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -192,7 +193,13 @@
                     android:id="@+id/first_nextbutton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+<<<<<<< HEAD
                     android:text="次へ" />
+=======
+                    android:background="#ffc864"
+                    android:textColor="@android:color/background_light" />
+
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
 
             </LinearLayout>
 

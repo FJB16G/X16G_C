@@ -1,5 +1,11 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
 
+<<<<<<< HEAD
+=======
+
+import android.graphics.Color;
+import android.location.Location;
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -11,10 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+<<<<<<< HEAD
+=======
+import com.google.android.gms.maps.LocationSource;
+
+import java.util.ArrayList;
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
 import java.util.Timer;
 import java.util.TimerTask;
 //import jp.ac.chiba_fjb.x16g_c.test09202.R;
@@ -22,7 +35,13 @@ import java.util.TimerTask;
 /**
  * A simple {@link Fragment} subclass.
  */
+<<<<<<< HEAD
 public class FirstFragment extends Fragment{
+=======
+public class FirstFragment extends Fragment implements LocationSource.OnLocationChangedListener {
+
+
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
     public FirstFragment() {
         // Required empty public constructor
     }
@@ -48,10 +67,32 @@ public class FirstFragment extends Fragment{
     // 現在時刻
     int nowHour;       //時
     int nowMinute;     //分
+<<<<<<< HEAD
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final TextView dateText = view.findViewById(R.id.date);
+=======
+
+    MyLocationSource ls;
+    boolean flg = false;
+    Button nextbutton;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ls = new MyLocationSource(getContext());
+        ls.activate(this);
+
+        // フィールドの作成
+        final TextView dateText = view.findViewById(R.id.date);
+        nextbutton = view.findViewById(R.id.first_nextbutton);
+
+        nextbutton.setEnabled(false);
+        nextbutton.setText("現在位置取得中です、暫くお待ちください・・・" );
+
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
         nowHour = ((MainActivity)getActivity()).getNowHour();
         nowMinute = ((MainActivity)getActivity()).getNowMinute();
         date = nowHour + "時" + nowMinute + "分";
@@ -66,7 +107,11 @@ public class FirstFragment extends Fragment{
         numPicker2.setMaxValue(59);
         numPicker2.setMinValue(0);
         numPicker2.setValue(((MainActivity)getActivity()).reMinute);
+<<<<<<< HEAD
         final Button nextbutton = view.findViewById(R.id.first_nextbutton);
+=======
+
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
         radioGroup  = view.findViewById(R.id.radiogroup);
         radioGroup.check(R.id.radioButton);
         spacehour = view.findViewById(R.id.spacehour);
@@ -96,6 +141,7 @@ public class FirstFragment extends Fragment{
                             ji = ji + 24;
                         }
                         //空き時間の表示
+<<<<<<< HEAD
                         spacehour.setText(String.valueOf(ji));
                         spaceminute.setText(String.valueOf(fun));
                         //一定以下の空き時間の時次へのボタンを押せないように
@@ -105,6 +151,25 @@ public class FirstFragment extends Fragment{
                         }else {
                             nextbutton.setEnabled(true);
                             nextbutton.setText("次へ");
+=======
+                        spaceHour = ji;
+                        spaceMinute = fun;
+                        spaceHourView.setText(String.valueOf(ji));
+                        spaceMinuteView.setText(String.valueOf(fun));
+
+                        //現在位置取得後実行
+                        if (flg) {
+                            //一定以下の空き時間の時次へのボタンを押せないように
+                            if (ji == 0 && fun < 30) {
+                                nextbutton.setEnabled(false);
+                                nextbutton.setText(startSpaceMinute + "分以上の空き時間を設定してください");
+                                nextbutton.setBackgroundColor(Color.rgb(255, 200, 100));
+                            } else {
+                                nextbutton.setEnabled(true);
+                                nextbutton.setText("次へ");
+                                nextbutton.setBackgroundColor(Color.rgb(255, 136, 0));
+                            }
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
                         }
                         agoTime = numPicker2.getValue();
                     }
@@ -126,11 +191,25 @@ public class FirstFragment extends Fragment{
                 ((MainActivity)getActivity()).setNowHour(nowHour);
                 ((MainActivity)getActivity()).setNowMinute(nowMinute);
                 mTimer.cancel();
+<<<<<<< HEAD
                 if (radioGroup.getCheckedRadioButtonId() == R.id.radioButton){
+=======
+
+                // GPSの停止
+                ls.deactivate();
+                if (radioGroup.getCheckedRadioButtonId() == R.id.radioButton){
+                    ((MainActivity)getActivity()).setLastLat(((MainActivity)getActivity()).getNowLat());
+                    ((MainActivity)getActivity()).setLastLong(((MainActivity)getActivity()).getNowLong());
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
                     //カテゴリ選択画面に遷移
                     ((MainActivity)getActivity()).changeFragment(CategoryFragment.class);
                 }else {
                     //戻り場所選択画面に遷移
+<<<<<<< HEAD
+=======
+                    ((MainActivity)getActivity()).changeFragment(GoalFragment.class);
+
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
                 }
             }
         });
@@ -152,7 +231,31 @@ public class FirstFragment extends Fragment{
                 }
                 numPicker2.setValue(nowMinute + startspaceminute);
                 agoTime = nowMinute;
+<<<<<<< HEAD
             }
         });
     }
 }
+=======
+
+                // 現在位置の再取得
+                flg = false;
+                nextbutton.setEnabled(false);
+                nextbutton.setText("現在位置取得中です、暫くお待ちください・・・" );
+                nextbutton.setBackgroundColor(Color.rgb(255, 200, 100));
+            }
+        });
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (!(flg)){
+            ((MainActivity)getActivity()).setNowLat(location.getLatitude());
+            ((MainActivity)getActivity()).setNowLong(location.getLongitude());
+            ((MainActivity)getActivity()).setSelectLat(location.getLatitude());
+            ((MainActivity)getActivity()).setSelectLong(location.getLongitude());
+        }
+        flg = true;
+    }
+}
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37

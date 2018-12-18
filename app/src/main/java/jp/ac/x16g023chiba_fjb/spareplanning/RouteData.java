@@ -2,6 +2,9 @@ package jp.ac.x16g023chiba_fjb.spareplanning;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+
+
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class RouteData{
 

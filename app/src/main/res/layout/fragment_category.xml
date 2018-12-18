@@ -17,6 +17,14 @@
             android:background="@android:color/holo_orange_dark"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/updatenowtime"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:src="@drawable/return1" />
+
             <TextView
                 android:id="@+id/TitleText"
                 android:layout_width="wrap_content"
@@ -26,13 +34,6 @@
                 android:text="カテゴリ選択"
                 android:textColor="@android:color/background_light"
                 android:textSize="24sp" />
-
-            <ImageView
-                android:id="@+id/updatenowtime"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/quantum_ic_refresh_white_24" />
 
         </LinearLayout>
 
@@ -45,8 +46,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+<<<<<<< HEAD
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
+=======
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
             android:orientation="vertical">
 
             <LinearLayout
@@ -110,8 +116,14 @@
             </LinearLayout>
 
             <LinearLayout
+<<<<<<< HEAD
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+=======
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+>>>>>>> 3c24a443a8f3fc8ac7b6e9ee30bfc46d07149a37
                 android:orientation="horizontal">
 
                 <ImageButton
