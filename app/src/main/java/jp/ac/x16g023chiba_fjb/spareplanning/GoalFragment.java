@@ -216,6 +216,8 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onClick(View v) {
+
+
         //値を受け渡してカテゴリ画面へ
         ((MainActivity)getActivity()).setLastPlace(name);
         ((MainActivity)getActivity()).setLastLat(Lat);

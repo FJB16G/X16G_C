@@ -39,7 +39,7 @@ public class DialogFragment2 extends android.support.v4.app.DialogFragment imple
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v){
         //リスナーに登録されているメソッドを呼び出す
         if(mListener != null) {
             if (v.getId() == R.id.dialogButton)
@@ -48,8 +48,6 @@ public class DialogFragment2 extends android.support.v4.app.DialogFragment imple
         //ダイアログを閉じる
         getDialog().cancel();
     }
-
-
 
     //インタフェイスの定義
     public interface OnDialogButtonListener{

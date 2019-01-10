@@ -217,41 +217,46 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
         LL.setBackgroundColor(Color.rgb(255,255,255));
         layout.addView(LL);
 
-        // 選択マーカーがゴール地点の場合
-        if (marker.getTitle().toString().equals(((MainActivity)getActivity()).lastPlace)){
+        // 選択マーカーがゴール地点か検索地点の場合
+        if (marker.getTitle().toString().equals(((MainActivity)getActivity()).lastPlace) || marker.getTitle().toString().equals("検索地点")){
+
             //何も表示しない
-        // 選択マーカーがゴール地点以外の場合
-        }else if (marker.getTitle().toString().equals("検索地点")){
-            //何も表示しない
+
+        // その他、休憩可能な場所の場合
         } else {
             //二点間の最短距離の計算
             loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,((MainActivity)getActivity()).getSelectLat(),((MainActivity)getActivity()).getSelectLong(), results);
 
-            //クリックしたマーカーの情報をコンソール出力
-            System.out.println(marker.getTitle() + "\n" + (float)(results[0]) + "m , " + (int)(results[0]/60) + "分");
+            // 移動時間の計算
+            final int moveTime = (int)(results[0]/60);
 
-            // レイアウトの生成
+            //クリックしたマーカーの情報をコンソール出力
+            System.out.println(marker.getTitle() + "\n" + (float)(results[0]) + "m , " + moveTime + "分");
+
+            // 装飾バーの表示設定
             FrameLayout FL_Coler = new FrameLayout(getActivity());
             FL_Coler.setBackgroundColor(Color.rgb(255, 136, 0));
             LinearLayout.LayoutParams pColor = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 10);
             pColor.setMargins(10,10,10,10);
             LL.addView(FL_Coler, pColor);
-            // 店舗名
+
+            // 店舗名の表示設定
             TextView textView = new TextView(getActivity());
             textView.setText(marker.getTitle().toString());
             textView.setTextSize(30);
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
             p.setMargins(10,10,0,0);
             LL.addView(textView , p);
-            // 現在地点からタップしたマーカーまでの移動時間
+
+            // 現在地点からタップしたマーカーまでの距離と移動時間の表示設定
             TextView textView2 = new TextView(getActivity());
-            textView2.setText((int) (results[0]) + "m , " + (int)(results[0]/60) + "分");
+            textView2.setText((int) (results[0]) + "m , " + moveTime + "分");
             textView2.setTextSize(15);
             LinearLayout.LayoutParams p2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
             p2.setMargins(10,10,0,0);
             LL.addView(textView2,p2);
 
-            // 決定ボタン
+            // 決定ボタンの表示設定
             Button button = new Button(getActivity());
             button.setText("ここで休む");
             button.setBackgroundColor(Color.rgb(255,187,51));
@@ -260,35 +265,37 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
             p3.setMargins(10,10,10,10);
             LL.addView(button,p3);
 
+
             //休憩場所決定処理
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    // 休憩場所情報を保存
-                    ((MainActivity)getActivity()).getBreakPlace().add(marker.getTitle().toString());
-                    ((MainActivity)getActivity()).getMoveMinute().add((int)(results[0]/60));
 
                     // 戻り地点が現在位置ではない場合
                     if (!(((MainActivity)getActivity()).lastPlace.equals("現在位置"))){
 
                         // 登録した休憩場所からゴール地点までの移動時間
                         loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,((MainActivity)getActivity()).getLastLat(),((MainActivity)getActivity()).getLastLong(), results);
-                        ((MainActivity)getActivity()).setLastMove((int)(results[0]/60));
+                        ((MainActivity)getActivity()).setLastMove(moveTime);
 
                     // 戻り地点が現在位置の場合
                     }else {
+
                         //登録した休憩場所から現在位置までの移動時間
                         loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,((MainActivity)getActivity()).getNowLat(),((MainActivity)getActivity()).getNowLong(), results);
-                        ((MainActivity)getActivity()).setLastMove((int)(results[0]/60));
+                        ((MainActivity)getActivity()).setLastMove(moveTime);
                     }
 
                     // GPSを停止
                     ls.deactivate();
 
+                    // 休憩場所情報を保存
+                    ((MainActivity)getActivity()).getBreakPlace().add(marker.getTitle().toString());
+                    ((MainActivity)getActivity()).getMoveMinute().add(moveTime);
                     ((MainActivity)getActivity()).getBreakLat().add(String.valueOf(marker.getPosition().latitude));
                     ((MainActivity)getActivity()).getBreakLong().add(String.valueOf(marker.getPosition().longitude));
 
+                    // 予定追加時用に格納
                     ((MainActivity)getActivity()).setSelectLat2(marker.getPosition().latitude);
                     ((MainActivity)getActivity()).setSelectLong2(marker.getPosition().longitude);
 

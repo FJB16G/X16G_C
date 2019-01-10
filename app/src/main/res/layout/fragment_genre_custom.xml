@@ -20,10 +20,12 @@
 
             <ImageView
                 android:id="@+id/ReturnImg"
-                android:layout_width="50dp"
+                android:layout_width="20dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/return1" />
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                app:srcCompat="@drawable/arrou_left" />
 
             <TextView
                 android:id="@+id/TitleText"
@@ -31,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="7"
-                android:text="カテゴリを選択(複数選択可)"
+                android:text="カテゴリ選択"
                 android:textColor="@android:color/background_light"
                 android:textSize="24sp" />
 

@@ -1,6 +1,7 @@
 package jp.ac.x16g023chiba_fjb.spareplanning;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -305,11 +307,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void startNotificationService(){
+    public void startLeadService(){
         //MainActivity送信側
         Intent intent = new Intent(this,NotificationService.class);
         intent.putStringArrayListExtra("list",getLeaveTime());
         startService(intent);
-        changeFragment(NaviFragment.class);
+
+        //以下ナビゲーション処理
+        // 起点
+        String src_lat = String.valueOf(getNowLat());
+        String src_ltg = String.valueOf(getNowLong());
+
+        // 目的地
+        String des_lat = String.valueOf(getLastLat());
+        String des_ltg = String.valueOf(getLastLong());
+
+        //経由地
+        ArrayList <String> lat = getBreakLat();
+        ArrayList <String> lng = getBreakLong();
+
+        // 移動手段：電車:r, 車:d, 歩き:w
+        String[] dir = {"r", "d", "w"};
+
+        Intent intent2 = new Intent();
+        intent2.setAction(Intent.ACTION_VIEW);
+
+        // 出発地, 目的地, 交通手段
+        String str = String.format(Locale.US,
+                "http://maps.google.com/maps?saddr=%s,%s&daddr="
+                ,src_lat, src_ltg);
+        for (int i = 0 ; i < lat.size() ; i++){
+            str += lat.get(i) + "," + lng.get(i) + "+to:";
+        }
+        str += des_lat + "," + des_ltg + "&dirflg=" + dir[2];
+
+        intent2.setData(Uri.parse(str));
+        startActivity(intent2);
     }
 }

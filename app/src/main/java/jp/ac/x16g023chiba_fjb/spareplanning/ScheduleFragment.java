@@ -37,19 +37,19 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         return inflater.inflate(R.layout.fragment_schedule, container, false);
     }
 
+    //-----------------------------------------------------------------------------
+    // パブリック変数群
     LinearLayout layout;
     TextView reTimeView;
     int txtSize = 18;
     int nowTime;
     int reTime;
-
+    int point;
     ArrayList<String> place;
-
     ArrayList<Integer> duration;
-
     ArrayList<String> leaveTime = new ArrayList<>();
-
     ArrayList<Integer> moveMinute;
+    //------------------------------------------------------------------------------
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -187,8 +187,11 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).setLeaveTime(leaveTime);
-                ((MainActivity) getActivity()).startNotificationService();
-                //((MainActivity) getActivity()).changeFragment(NaviFragment.class);
+
+
+
+                // 通知、ナビ機能の開始
+                ((MainActivity) getActivity()).startLeadService();
             }
         });
     }
@@ -357,7 +360,7 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
             });
 
     }
-    int point;
+
     // ダイアログ実行後の処理(valueには対象の滞在時間の変化分が入る)
     @Override
     public void onDialogButton(int value) {

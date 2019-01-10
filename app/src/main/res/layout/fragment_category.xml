@@ -20,11 +20,12 @@
 
             <ImageView
                 android:id="@+id/updatenowtime"
-                android:layout_width="30dp"
+                android:layout_width="20dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:padding="3dp"
-                android:src="@drawable/return1" />
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/arrou_left" />
 
             <TextView
                 android:id="@+id/TitleText"
@@ -136,9 +137,8 @@
                         android:layout_height="140dp"
                         android:layout_gravity="center"
                         android:background="@drawable/frame_style"
-                        android:padding="8dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/tranp" />
+                        app:srcCompat="@drawable/crangame" />
                 </FrameLayout>
 
                 <FrameLayout
