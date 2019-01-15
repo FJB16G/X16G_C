@@ -20,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.LocationSource;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -186,8 +187,7 @@ public class FirstFragment extends Fragment implements LocationSource.OnLocation
                 // GPSの停止
                 ls.deactivate();
                 if (radioGroup.getCheckedRadioButtonId() == R.id.radioButton){
-                    ((MainActivity)getActivity()).setLastLat(((MainActivity)getActivity()).getNowLat());
-                    ((MainActivity)getActivity()).setLastLong(((MainActivity)getActivity()).getNowLong());
+                    ((MainActivity)getActivity()).setLastLatLong(((MainActivity)getActivity()).getNowLatLong());
                     //カテゴリ選択画面に遷移
                     ((MainActivity)getActivity()).changeFragment(CategoryFragment.class);
                 }else {
@@ -233,10 +233,8 @@ public class FirstFragment extends Fragment implements LocationSource.OnLocation
     @Override
     public void onLocationChanged(Location location) {
         if (!(flg)){
-            ((MainActivity)getActivity()).setNowLat(location.getLatitude());
-            ((MainActivity)getActivity()).setNowLong(location.getLongitude());
-            ((MainActivity)getActivity()).setSelectLat(location.getLatitude());
-            ((MainActivity)getActivity()).setSelectLong(location.getLongitude());
+            ((MainActivity)getActivity()).setNowLatLong(new LatLng(location.getLatitude(),location.getLongitude()));
+            ((MainActivity)getActivity()).setSelectLatLong(new LatLng(location.getLatitude(),location.getLongitude()));
         }
         flg = true;
     }

@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -35,26 +37,21 @@ public class MainActivity extends AppCompatActivity {
     int lastMove;
 
     //現在位置の緯度経度
-    double nowLong;
-    double nowLat;
+    LatLng nowLatLong;
 
     //ゴール地点の緯度経度
-    double lastLong;
-    double lastLat;
+    LatLng lastLatLong;
 
     //指定地点の緯度経度(初期値は現在位置)
-    double selectLat;
-    double selectLong;
+    LatLng selectLatLong;
 
     //指定地点の緯度経度(初期値は現在位置)の退避用
-    double selectLat2;
-    double selectLong2;
+    LatLng selectLatLong2;
 
     // 休憩場所（配列の最後には最終目的地が入る）
     ArrayList<String> breakPlace = new ArrayList<String>();
 
-    ArrayList<String> breakLat = new ArrayList<>();
-    ArrayList<String> breakLong = new ArrayList<>();
+    ArrayList<LatLng> breakLatLong = new ArrayList<>();
 
     // 目的地への移動時間（目的地の配列の番号と、目的地に向かう移動時間の配列の番号が同じになるように）
     ArrayList<Integer> moveMinute = new ArrayList<Integer>(); // 分
@@ -68,16 +65,11 @@ public class MainActivity extends AppCompatActivity {
     // ダイアログ受け渡し用
     int breakNumber;
 
-    public ArrayList<String> getLeaveTime() {
-        return leaveTime;
-    }
-
-    public void setLeaveTime(ArrayList<String> leaveTime) {
-        this.leaveTime = leaveTime;
-    }
-
-    //
+    //通知用時間格納リスト
     ArrayList<String> leaveTime = new ArrayList<>();
+
+    //戻りボタン遷移フラグ
+    boolean reFlg = false;
 
     // 以下ゲッター群--------------------------------------------------------------------------------
 
@@ -119,40 +111,8 @@ public class MainActivity extends AppCompatActivity {
         return moveMinute;
     }
 
-    public double getLastLong() {
-        return lastLong;
-    }
-
-    public double getLastLat() {
-        return lastLat;
-    }
-
     public int getLastMove() {
         return lastMove;
-    }
-
-    public double getNowLong() {
-        return nowLong;
-    }
-
-    public double getNowLat() {
-        return nowLat;
-    }
-
-    public double getSelectLat() {
-        return selectLat;
-    }
-
-    public double getSelectLong() {
-        return selectLong;
-    }
-
-    public double getSelectLat2() {
-        return selectLat2;
-    }
-
-    public double getSelectLong2() {
-        return selectLong2;
     }
 
     public int getBreakNumber() {
@@ -163,12 +123,28 @@ public class MainActivity extends AppCompatActivity {
         return breakDuration;
     }
 
-    public ArrayList<String> getBreakLat() {
-        return breakLat;
+    public LatLng getSelectLatLong2() {
+        return selectLatLong2;
     }
 
-    public ArrayList<String> getBreakLong() {
-        return breakLong;
+    public LatLng getSelectLatLong() {
+        return selectLatLong;
+    }
+
+    public ArrayList<LatLng> getBreakLatLong() {
+        return breakLatLong;
+    }
+
+    public ArrayList<String> getLeaveTime() {
+        return leaveTime;
+    }
+
+    public LatLng getNowLatLong() {
+        return nowLatLong;
+    }
+
+    public LatLng getLastLatLong() {
+        return lastLatLong;
     }
 
     // 以下セッター群--------------------------------------------------------------------------------
@@ -213,40 +189,8 @@ public class MainActivity extends AppCompatActivity {
         this.moveMinute = moveMinute;
     }
 
-    public void setLastLong(double lastLong) {
-        this.lastLong = lastLong;
-    }
-
-    public void setLastLat(double lastLat) {
-        this.lastLat = lastLat;
-    }
-
     public void setLastMove(int lastMove) {
         this.lastMove = lastMove;
-    }
-
-    public void setNowLong(double nowLong) {
-        this.nowLong = nowLong;
-    }
-
-    public void setNowLat(double nowLat) {
-        this.nowLat = nowLat;
-    }
-
-    public void setSelectLat(double selectLat) {
-        this.selectLat = selectLat;
-    }
-
-    public void setSelectLong(double selectLong) {
-        this.selectLong = selectLong;
-    }
-
-    public void setSelectLat2(double selectLat2) {
-        this.selectLat2 = selectLat2;
-    }
-
-    public void setSelectLong2(double selectLong2) {
-        this.selectLong2 = selectLong2;
     }
 
     public void setBreakNumber(int breakNumber) {
@@ -257,12 +201,28 @@ public class MainActivity extends AppCompatActivity {
         this.breakDuration = breakDuration;
     }
 
-    public void setBreakLat(ArrayList<String> breakLat) {
-        this.breakLat = breakLat;
+    public void setBreakLatLong(ArrayList<LatLng> breakLatLong) {
+        this.breakLatLong = breakLatLong;
     }
 
-    public void setBreakLong(ArrayList<String> breakLong) {
-        this.breakLong = breakLong;
+    public void setSelectLatLong(LatLng selectLatLong) {
+        this.selectLatLong = selectLatLong;
+    }
+
+    public void setSelectLatLong2(LatLng selectLatLong2) {
+        this.selectLatLong2 = selectLatLong2;
+    }
+
+    public void setLeaveTime(ArrayList<String> leaveTime) {
+        this.leaveTime = leaveTime;
+    }
+
+    public void setNowLatLong(LatLng nowLatLong) {
+        this.nowLatLong = nowLatLong;
+    }
+
+    public void setLastLatLong(LatLng lastLatLong) {
+        this.lastLatLong = lastLatLong;
     }
 
     // ----------------------------------------------------------------------------------------------
@@ -314,17 +274,6 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
 
         //以下ナビゲーション処理
-        // 起点
-        String src_lat = String.valueOf(getNowLat());
-        String src_ltg = String.valueOf(getNowLong());
-
-        // 目的地
-        String des_lat = String.valueOf(getLastLat());
-        String des_ltg = String.valueOf(getLastLong());
-
-        //経由地
-        ArrayList <String> lat = getBreakLat();
-        ArrayList <String> lng = getBreakLong();
 
         // 移動手段：電車:r, 車:d, 歩き:w
         String[] dir = {"r", "d", "w"};
@@ -335,11 +284,11 @@ public class MainActivity extends AppCompatActivity {
         // 出発地, 目的地, 交通手段
         String str = String.format(Locale.US,
                 "http://maps.google.com/maps?saddr=%s,%s&daddr="
-                ,src_lat, src_ltg);
-        for (int i = 0 ; i < lat.size() ; i++){
-            str += lat.get(i) + "," + lng.get(i) + "+to:";
+                ,String.valueOf(getNowLatLong().latitude), String.valueOf(getNowLatLong().longitude));
+        for (int i = 0 ; i < getBreakLatLong().size() ; i++){
+            str += String.valueOf(getBreakLatLong().get(i).latitude) + "," + String.valueOf(getBreakLatLong().get(i).longitude) + "+to:";
         }
-        str += des_lat + "," + des_ltg + "&dirflg=" + dir[2];
+        str += String.valueOf(getLastLatLong().latitude) + "," + getLastLatLong().longitude + "&dirflg=" + dir[2];
 
         intent2.setData(Uri.parse(str));
         startActivity(intent2);

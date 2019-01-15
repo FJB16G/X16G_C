@@ -46,8 +46,7 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
     private GoogleMap mMap;
     android.location.Location loc;
     MyLocationSource ls;
-    double Long;
-    double Lat;
+    LatLng beforeLatLong;
     float[] results = new float[1];
     LinearLayout layout;
     String API_KEY = "AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y";
@@ -71,8 +70,24 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
         view.findViewById(R.id.imageButton2).setOnClickListener(this);
         view.findViewById(R.id.imageButton3).setOnClickListener(this);
         view.findViewById(R.id.imageButton4).setOnClickListener(this);
-        Lat = ((MainActivity)getActivity()).getSelectLat();
-        Long = ((MainActivity)getActivity()).getSelectLong();
+        beforeLatLong = ((MainActivity)getActivity()).getSelectLatLong();
+
+        // 戻りボタン
+        view.findViewById(R.id.imageView4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // GPSを停止
+                ls.deactivate();
+
+                if(((MainActivity) getActivity()).reFlg){
+                    ((MainActivity) getActivity()).setSelectLatLong(((MainActivity) getActivity()).getBreakLatLong().get(((MainActivity) getActivity()).getBreakLatLong().size() - 1));
+                    ((MainActivity) getActivity()).changeFragment(ScheduleFragment.class);
+                }else {
+                    ((MainActivity) getActivity()).changeFragment(CategoryFragment.class);
+                }
+
+            }
+        });
     }
 
     @Override
@@ -103,11 +118,10 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
         mMap.setOnMarkerClickListener(this);
 
         // 選択位置を中心にマップを移動
-        LatLng sydney = new LatLng(((MainActivity)getActivity()).getSelectLat(),((MainActivity)getActivity()).getSelectLong());  //位置設定
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17.0f));   //範囲2.0～21.0(全体～詳細)
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(beforeLatLong, 17.0f));   //範囲2.0～21.0(全体～詳細)
 
         RouteReader.recvPlace("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y",
-                ((MainActivity)getActivity()).searchText, new LatLng(Lat,Long), 500, this);
+                ((MainActivity)getActivity()).searchText, beforeLatLong, 500, this);
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -134,15 +148,15 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
             Marker m = mMap.addMarker(op);
             m.setTag(result);
             // 現在選択中のピンの場合ピン生成を無視（後に生成）
-            if (!(loc.lat == Lat && loc.lng == Long)){
+            if (!(loc.lat == beforeLatLong.latitude && loc.lng == beforeLatLong.longitude)){
                 mMap.addMarker(op);
             }
         }
 
         // 選択中の場所が検索地点以外の場合
-        if (!(Lat == ((MainActivity)getActivity()).getNowLat() && Long == ((MainActivity)getActivity()).getNowLong())){
+        if (!(beforeLatLong.latitude == ((MainActivity)getActivity()).getNowLatLong().latitude && beforeLatLong.longitude == ((MainActivity)getActivity()).getNowLatLong().longitude)){
             MarkerOptions op = new MarkerOptions();
-            op.position(new LatLng(Lat,Long));
+            op.position(beforeLatLong);
             // 色
             BitmapDescriptor icon2 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
             op.icon(icon2);
@@ -153,7 +167,7 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
 
         // 検索地点のピン
         MarkerOptions options = new MarkerOptions();
-        options.position(new LatLng(((MainActivity)getActivity()).getNowLat(),((MainActivity)getActivity()).getNowLong()));
+        options.position(((MainActivity)getActivity()).getNowLatLong());
         // アイコンの変更
         // 色
         BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
@@ -167,7 +181,7 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
         if (!(((MainActivity)getActivity()).getLastPlace().equals("現在位置"))){
             //ゴール地点のポインターの設置
             MarkerOptions options2 = new MarkerOptions();
-            options2.position(new LatLng(((MainActivity)getActivity()).getLastLat(),((MainActivity)getActivity()).getLastLong()));
+            options2.position(((MainActivity)getActivity()).getLastLatLong());
             // アイコンの変更
             options2.icon(icon);
             // アイコンの名前
@@ -225,7 +239,7 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
         // その他、休憩可能な場所の場合
         } else {
             //二点間の最短距離の計算
-            loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,((MainActivity)getActivity()).getSelectLat(),((MainActivity)getActivity()).getSelectLong(), results);
+            loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,beforeLatLong.latitude,beforeLatLong.longitude, results);
 
             // 移動時間の計算
             final int moveTime = (int)(results[0]/60);
@@ -275,14 +289,14 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
                     if (!(((MainActivity)getActivity()).lastPlace.equals("現在位置"))){
 
                         // 登録した休憩場所からゴール地点までの移動時間
-                        loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,((MainActivity)getActivity()).getLastLat(),((MainActivity)getActivity()).getLastLong(), results);
+                        loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,((MainActivity)getActivity()).getLastLatLong().latitude,((MainActivity)getActivity()).getLastLatLong().longitude, results);
                         ((MainActivity)getActivity()).setLastMove(moveTime);
 
                     // 戻り地点が現在位置の場合
                     }else {
 
                         //登録した休憩場所から現在位置までの移動時間
-                        loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,((MainActivity)getActivity()).getNowLat(),((MainActivity)getActivity()).getNowLong(), results);
+                        loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,((MainActivity)getActivity()).getNowLatLong().latitude,((MainActivity)getActivity()).getNowLatLong().longitude, results);
                         ((MainActivity)getActivity()).setLastMove(moveTime);
                     }
 
@@ -292,12 +306,10 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
                     // 休憩場所情報を保存
                     ((MainActivity)getActivity()).getBreakPlace().add(marker.getTitle().toString());
                     ((MainActivity)getActivity()).getMoveMinute().add(moveTime);
-                    ((MainActivity)getActivity()).getBreakLat().add(String.valueOf(marker.getPosition().latitude));
-                    ((MainActivity)getActivity()).getBreakLong().add(String.valueOf(marker.getPosition().longitude));
+                    ((MainActivity)getActivity()).getBreakLatLong().add(new LatLng(marker.getPosition().latitude,marker.getPosition().longitude));
 
-                    // 予定追加時用に格納
-                    ((MainActivity)getActivity()).setSelectLat2(marker.getPosition().latitude);
-                    ((MainActivity)getActivity()).setSelectLong2(marker.getPosition().longitude);
+                    // 次回予定追加時用に格納
+                    ((MainActivity)getActivity()).setSelectLatLong2(marker.getPosition());
 
                     //スケジュール画面へ遷移
                     ((MainActivity)getActivity()).changeFragment(ScheduleFragment.class);
@@ -323,6 +335,6 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
         }
         // 周辺データを再取得
         RouteReader.recvPlace("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y",
-                ((MainActivity)getActivity()).searchText, new LatLng(Lat,Long), 500, this);
+                ((MainActivity)getActivity()).searchText, beforeLatLong, 500, this);
     }
 }

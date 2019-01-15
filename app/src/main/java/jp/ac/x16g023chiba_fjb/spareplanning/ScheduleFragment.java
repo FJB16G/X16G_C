@@ -51,150 +51,7 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
     ArrayList<Integer> moveMinute;
     //------------------------------------------------------------------------------
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        //  フィールドの作成
-
-        // 現在時刻
-        final int nowHour = ((MainActivity) getActivity()).getNowHour();
-        final int nowMinute = ((MainActivity) getActivity()).getNowMinute();
-        nowTime = conversionMinute(nowHour, nowMinute);
-
-        // 戻り時刻と場所名
-        final int reHour = ((MainActivity) getActivity()).getReHour();
-        final int reMinute = ((MainActivity) getActivity()).getReMinute();
-        reTime = conversionMinute(reHour, reMinute);
-        final String rePiace = ((MainActivity) getActivity()).getLastPlace();
-
-        // 目的地１番～戻り場所の一つ前まで
-        place = ((MainActivity) getActivity()).getBreakPlace();
-
-        // 各場所の滞在時間
-        duration = new ArrayList<>();
-
-        // 現在位置→目的地１番目～戻り場所の一つ前→戻り場所　（要素数はPlaceより１多くなる）
-        moveMinute = ((MainActivity) getActivity()).getMoveMinute();
-
-        // 空き時間
-        int spaceHour = ((MainActivity) getActivity()).getSpaceHour();
-        int spaceMinute = ((MainActivity) getActivity()).getSpaceMinute();
-
-        // ビュー系
-        TextView nowTimeView = view.findViewById(R.id.textView1);
-        reTimeView = view.findViewById(R.id.textView2);
-        TextView spaceTimeView = view.findViewById(R.id.textView3);
-        layout = view.findViewById(R.id.ScheduleMain);
-
-        // 空き時間格納変数
-        int totalMinute;
-
-        // 設定時刻の表示
-        nowTimeView.setText(conversionTime(nowTime));
-        reTimeView.setText(conversionTime(reTime));
-
-        // 空き時間表示
-        spaceTimeView.setText("(" + spaceHour + "時間" + spaceMinute + "分)");
-
-        // 空き時間計算
-        totalMinute = conversionMinute(spaceHour, spaceMinute);
-
-        // 計画時間から移動時間を減算
-        for (int i : moveMinute) {
-            totalMinute -= i;
-        }
-        totalMinute -= ((MainActivity) getActivity()).getLastMove();
-
-        // 均等割り付けで滞在時間を設定
-        for (int i = 0; i < place.size() - 1; i++) {
-
-            // 少数値が出る場合、最後の場所の滞在時間が増え過ぎないように
-            duration.add((int) (totalMinute / (place.size() - i)));
-            totalMinute -= duration.get(i);
-        }
-        duration.add(totalMinute);
-
-        // 以下スケジュール作成処理
-
-        // 現在位置時刻設定（文字サイズを統一化するため、ここで設定する）
-        nowTimeView = view.findViewById(R.id.textView1_2);
-        nowTimeView.setTextSize(txtSize);
-        nowTimeView.setText(conversionTime(nowTime));
-        TextView nowPlace = view.findViewById(R.id.NowPlace);
-        nowPlace.setTextSize(txtSize);
-
-        // 前の場所の出発時間を格納、初期値は現在時刻
-        int outPlaceTime = nowTime;
-
-        // 一時保存用変数
-        int work;
-
-        // アクションバーと連結バーをセットとして表示（placeより要素が１多いmoveMinuteの末尾の値は使わない）
-        for (int i = 0; i < place.size(); i++) {
-
-            // 連結バーの表示
-            verticalLine(moveMinute.get(i));
-
-            // 整理用に一時保存
-            work = timeCalculation(outPlaceTime, moveMinute.get(i));
-
-            //アクションバーの表示
-            horizontalLine(place.get(i), work, timeCalculation(work, duration.get(i)), duration.get(i), i);
-
-            // 通知用の値を追加
-            leaveTime.add(conversionTime(timeCalculation(work, duration.get(i))));
-
-            // このループの出発時間を次のループの到着時間の計算に使う
-            outPlaceTime = timeCalculation(work, duration.get(i));
-        }
-
-        // 戻り場所への移動時間の連結バーを表示する
-        verticalLine(((MainActivity) getActivity()).getLastMove());
-
-        // 戻り場所のアクションバーの設定
-        reTimeView = view.findViewById(R.id.textView2_2);
-        reTimeView.setTextSize(txtSize);
-        reTimeView.setText((conversionTime(reTime)));
-        TextView rePlaceView = view.findViewById(R.id.RePlace);
-        rePlaceView.setText(rePiace);
-        rePlaceView.setTextSize(txtSize);
-
-        // 戻りボタン
-        view.findViewById(R.id.ReturnFirst).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // 追加した要素を削除する
-                ((MainActivity) getActivity()).getBreakPlace().remove(((MainActivity) getActivity()).getBreakPlace().size() - 1);
-                ((MainActivity) getActivity()).getMoveMinute().remove(((MainActivity) getActivity()).getMoveMinute().size() - 1);
-                ((MainActivity) getActivity()).changeFragment(MapViewFragment2.class);
-            }
-        });
-
-        // プラン追加ボタン
-        view.findViewById(R.id.addPlans).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).setSelectLat(((MainActivity) getActivity()).getSelectLat2());
-                ((MainActivity) getActivity()).setSelectLong(((MainActivity) getActivity()).getSelectLong2());
-                ((MainActivity) getActivity()).changeFragment(MapViewFragment2.class);
-            }
-        });
-
-        // ナビ画面ボタン
-        view.findViewById(R.id.nextNavi).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).setLeaveTime(leaveTime);
-
-
-
-                // 通知、ナビ機能の開始
-                ((MainActivity) getActivity()).startLeadService();
-            }
-        });
-    }
+    // 計算用メソッド
 
     //時間を分換算値に変換（[２]:[３０]　→　１５０分）
     public int conversionMinute(int hour, int minute) {
@@ -218,6 +75,8 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         }
         return time;
     }
+
+    // テンプレートレイアウト作成メソッド
 
     //連結バーと移動時間の表示（移動時間（分））
     public void verticalLine(int move) {
@@ -251,7 +110,7 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         LL.addView(textView2, p3);
     }
 
-    //アクションバーの生成（休憩場所 , 到着時間（分換算） , 出発時間（分換算） , 滞在時間 , 要素番号）
+    //バーの生成（休憩場所 , 到着時間（分換算） , 出発時間（分換算） , 滞在時間 , 要素番号）
     public void horizontalLine(String place, int inTime, int outTime, int space, final int number) {
 
         //色分け用
@@ -333,32 +192,180 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
         p6.weight = 7.0f;
         LL_ThirdStage.addView(textView4, p6);
 
-            Button button = new Button(getActivity());
-            button.setText("編集");
-            button.setTextSize(txtSize);
-            button.setTextColor(Color.rgb(255, 255, 255));
-            button.setBackgroundColor(Color.rgb(255, 136, 0));
-            LinearLayout.LayoutParams p8 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            p8.weight = 1.0f;
-            LL_ThirdStage.addView(button, p8);
-            // 滞在時間編集
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((MainActivity) getActivity()).setBreakDuration(duration);
-                    ((MainActivity) getActivity()).setBreakNumber(number);
+        Button button = new Button(getActivity());
+        button.setText("編集");
+        button.setTextSize(txtSize);
+        button.setTextColor(Color.rgb(255, 255, 255));
+        button.setBackgroundColor(Color.rgb(255, 136, 0));
+        LinearLayout.LayoutParams p8 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        p8.weight = 1.0f;
+        LL_ThirdStage.addView(button, p8);
+        // 滞在時間編集
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).setBreakDuration(duration);
+                ((MainActivity) getActivity()).setBreakNumber(number);
 
-                    //フラグメントのインスタンスを作成
-                    DialogFragment2 f = new DialogFragment2();
+                //フラグメントのインスタンスを作成
+                DialogFragment2 f = new DialogFragment2();
 
-                    //ダイアログのボタンが押された場合の動作
-                    f.setOnDialogButtonListener(ScheduleFragment.this);
+                //ダイアログのボタンが押された場合の動作
+                f.setOnDialogButtonListener(ScheduleFragment.this);
 
-                    //フラグメントをダイアログとして表示
-                    f.show(getFragmentManager(), "");
+                //フラグメントをダイアログとして表示
+                f.show(getFragmentManager(), "");
+            }
+        });
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //  フィールドの作成
+
+        // 現在時刻
+        final int nowHour = ((MainActivity) getActivity()).getNowHour();
+        final int nowMinute = ((MainActivity) getActivity()).getNowMinute();
+        nowTime = conversionMinute(nowHour, nowMinute);
+
+        // 戻り時刻と場所名
+        final int reHour = ((MainActivity) getActivity()).getReHour();
+        final int reMinute = ((MainActivity) getActivity()).getReMinute();
+        reTime = conversionMinute(reHour, reMinute);
+        final String rePiace = ((MainActivity) getActivity()).getLastPlace();
+
+        // 目的地１番～戻り場所の一つ前まで
+        place = ((MainActivity) getActivity()).getBreakPlace();
+
+        // 各場所の滞在時間
+        duration = new ArrayList<>();
+
+        // 移動時間　｛ 現在位置→目的地１番目～戻り場所の二つ前→戻り場所の一つ前（要素数は滞在場所と等しい）｝
+        moveMinute = ((MainActivity) getActivity()).getMoveMinute();
+
+        // 空き時間
+        int spaceHour = ((MainActivity) getActivity()).getSpaceHour();
+        int spaceMinute = ((MainActivity) getActivity()).getSpaceMinute();
+
+        // ビュー系
+        TextView nowTimeView = view.findViewById(R.id.textView1);
+        reTimeView = view.findViewById(R.id.textView2);
+        TextView spaceTimeView = view.findViewById(R.id.textView3);
+        layout = view.findViewById(R.id.ScheduleMain);
+
+        // 空き時間格納変数
+        int totalMinute;
+
+        // 設定時刻の表示
+        nowTimeView.setText(conversionTime(nowTime));
+        reTimeView.setText(conversionTime(reTime));
+
+        // 空き時間表示
+        spaceTimeView.setText("(" + spaceHour + "時間" + spaceMinute + "分)");
+
+        // 空き時間計算
+        totalMinute = conversionMinute(spaceHour, spaceMinute);
+
+        // 計画時間から移動時間を減算
+        for (int i : moveMinute) {
+            totalMinute -= i;
+        }
+        totalMinute -= ((MainActivity) getActivity()).getLastMove();
+
+        // 均等割り付けで滞在時間を設定
+        for (int i = 0; i < place.size() - 1; i++) {
+
+            duration.add((int) (totalMinute / (place.size() - i)));
+            totalMinute -= duration.get(i);
+        }
+        duration.add(totalMinute);
+
+        // 以下スケジュール作成処理
+
+        // 現在位置時刻設定（文字サイズを統一化するため、ここで改めて設定する）
+        nowTimeView = view.findViewById(R.id.textView1_2);
+        nowTimeView.setTextSize(txtSize);
+        nowTimeView.setText(conversionTime(nowTime));
+        TextView nowPlace = view.findViewById(R.id.NowPlace);
+        nowPlace.setTextSize(txtSize);
+
+        // 前の場所の出発時間を格納、初期値は現在時刻
+        int outPlaceTime = nowTime;
+
+        // 一時保存用変数
+        int work;
+
+        // アクションバーと連結バーをセットとして表示（placeより要素が１多いmoveMinuteの末尾の値は使わない）
+        for (int i = 0; i < place.size(); i++) {
+
+            // 連結バーの表示
+            verticalLine(moveMinute.get(i));
+
+            // 整理用に一時保存
+            work = timeCalculation(outPlaceTime, moveMinute.get(i));
+
+            //アクションバーの表示
+            horizontalLine(place.get(i), work, timeCalculation(work, duration.get(i)), duration.get(i), i);
+
+            // 通知用の値を追加
+            leaveTime.add(conversionTime(timeCalculation(work, duration.get(i))));
+
+            // このループの出発時間を次のループの到着時間の計算に使う
+            outPlaceTime = timeCalculation(work, duration.get(i));
+        }
+
+        // 戻り場所への移動時間の連結バーを表示する
+        verticalLine(((MainActivity) getActivity()).getLastMove());
+
+        // 戻り場所のアクションバーの設定
+        reTimeView = view.findViewById(R.id.textView2_2);
+        reTimeView.setTextSize(txtSize);
+        reTimeView.setText((conversionTime(reTime)));
+        TextView rePlaceView = view.findViewById(R.id.RePlace);
+        rePlaceView.setText(rePiace);
+        rePlaceView.setTextSize(txtSize);
+
+        // 戻りボタン
+        view.findViewById(R.id.ReturnFirst).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 追加した要素を削除する
+                ((MainActivity) getActivity()).getBreakPlace().remove(((MainActivity) getActivity()).getBreakPlace().size() - 1);
+                ((MainActivity) getActivity()).getBreakLatLong().remove(((MainActivity) getActivity()).getBreakLatLong().size() - 1);
+                ((MainActivity) getActivity()).getMoveMinute().remove(((MainActivity) getActivity()).getMoveMinute().size() - 1);
+                if (((MainActivity) getActivity()).getBreakPlace().size() == 0){
+                    ((MainActivity) getActivity()).reFlg = false;
+                    ((MainActivity) getActivity()).setSelectLatLong(((MainActivity) getActivity()).getNowLatLong());
+                }else {
+                    ((MainActivity) getActivity()).setSelectLatLong(((MainActivity) getActivity()).getBreakLatLong().get(((MainActivity) getActivity()).getBreakLatLong().size() - 1));
                 }
-            });
+                ((MainActivity) getActivity()).changeFragment(MapViewFragment2.class);
+            }
+        });
 
+        // プラン追加ボタン
+        view.findViewById(R.id.addPlans).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).reFlg = true;
+                ((MainActivity) getActivity()).setSelectLatLong(((MainActivity) getActivity()).getSelectLatLong2());
+                ((MainActivity) getActivity()).changeFragment(MapViewFragment2.class);
+            }
+        });
+
+        // ナビ画面ボタン
+        view.findViewById(R.id.nextNavi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).setLeaveTime(leaveTime);
+
+                // 通知、ナビ機能の開始
+                ((MainActivity) getActivity()).startLeadService();
+            }
+        });
     }
 
     // ダイアログ実行後の処理(valueには対象の滞在時間の変化分が入る)
@@ -415,4 +422,6 @@ public class ScheduleFragment extends Fragment implements DialogFragment2.OnDial
             hint.addView(textView,p);
         }
     }
+
+
 }

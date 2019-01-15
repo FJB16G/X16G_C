@@ -51,8 +51,7 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
     private PlacesAPI mPlaces;
     private Handler mHandler;
     EditText kensaku;
-    double Lat;
-    double Long;
+    LatLng selectLatLong;
     String name;
     LinearLayout layout;
 
@@ -140,6 +139,13 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
 //                });
 //            }
 //        }.start();
+
+        view.findViewById(R.id.imageButton3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).changeFragment(GoalFragment.class);
+            }
+        });
     }
 
     @Override
@@ -155,8 +161,8 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
         settings.setMyLocationButtonEnabled(true);
         //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mMap.setOnMarkerClickListener(this);
-        LatLng sydney = new LatLng(((MainActivity)getActivity()).getNowLat(), ((MainActivity)getActivity()).getNowLong());             //位置設定
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15.0f));   //範囲2.0～21.0(全体～詳細)
+        //位置設定
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(((MainActivity)getActivity()).getNowLatLong(), 15.0f));   //範囲2.0～21.0(全体～詳細)
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -181,6 +187,7 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     void addMarker(LatLng l,String name){
+        
         //マーカーの追加
         Marker marker = mMap.addMarker(new MarkerOptions().position(l).title(name));
         mMakers.add(marker);
@@ -197,8 +204,7 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public boolean onMarkerClick(Marker marker) {
         System.out.print(marker.getPosition().latitude + " : " + marker.getPosition().longitude);
-        Lat = marker.getPosition().latitude;
-        Long = marker.getPosition().longitude;
+        selectLatLong = marker.getPosition();
         name = marker.getTitle();
         layout.removeAllViews();
         Button button = new Button(getActivity());
@@ -213,15 +219,12 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
         return false;
     }
 
-
     @Override
     public void onClick(View v) {
 
-
         //値を受け渡してカテゴリ画面へ
         ((MainActivity)getActivity()).setLastPlace(name);
-        ((MainActivity)getActivity()).setLastLat(Lat);
-        ((MainActivity)getActivity()).setLastLong(Long);
+        ((MainActivity)getActivity()).setLastLatLong(selectLatLong);
         ((MainActivity)getActivity()).changeFragment(CategoryFragment.class);
     }
 
