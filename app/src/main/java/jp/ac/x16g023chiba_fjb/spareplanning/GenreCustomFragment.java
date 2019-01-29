@@ -34,75 +34,32 @@ public class GenreCustomFragment extends Fragment implements View.OnClickListene
         return inflater.inflate(R.layout.fragment_genre_custom, container, false);
     }
 
-    //チェックボックスの配列
-    private CheckBox checkBox[] = new CheckBox[10];
-    //チェックボックスの配列
-    private ArrayList<String> categoryBox = new ArrayList();
-    //保存ボタンの変数
-    private Button button;
-    //検索文字列格納用変数
-    private String sText;
-//    //表示領域
-//    private TextView textView;
-//
-//
-//    //本番では消す
-//    private TextView sText;
-
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //チェックボックスの取得・値の格納
-        checkBox[0] = view.findViewById(R.id.cBox1);
-        categoryBox.add("restaurant");
-        checkBox[1] = view.findViewById(R.id.cBox2);
-        categoryBox.add("cafe");
-        checkBox[2] = view.findViewById(R.id.cBox3);
-        categoryBox.add("book_store");
-        checkBox[3] = view.findViewById(R.id.cBox4);
-        categoryBox.add("clothing_store");
-        checkBox[4] = view.findViewById(R.id.cBox5);
-        categoryBox.add("museum");
-        checkBox[5] = view.findViewById(R.id.cBox6);
-        categoryBox.add("bowling_alley");
-        checkBox[6] = view.findViewById(R.id.cBox7);
-        categoryBox.add("store");
-        checkBox[7] = view.findViewById(R.id.cBox8);
-        categoryBox.add("library");
-        checkBox[8] = view.findViewById(R.id.cBox9);
-        categoryBox.add("movie_theater");
-        checkBox[9] = view.findViewById(R.id.cBox10);
-        categoryBox.add("shopping_mall");
-
-        for(int i=0;i<10;i++) {
-            // チェック状態を false に設定
-            checkBox[i].setChecked(false);
-        }
-//        //本番では消す
-//        sText = view.findViewById(R.id.sText);
-
-//        //textviewの取得
-//        textView = view.findViewById(R.id.Print_Test);
-        //保存ボタン取得・onClickの呼び出し
-        button = view.findViewById(R.id.StorageButton);
-        button.setOnClickListener(this);
-
-
-
+        view.findViewById(R.id.library).setOnClickListener(this);
+        view.findViewById(R.id.bookstore).setOnClickListener(this);
+        view.findViewById(R.id.clothshop).setOnClickListener(this);
+        view.findViewById(R.id.museum).setOnClickListener(this);
+        view.findViewById(R.id.park).setOnClickListener(this);
+        view.findViewById(R.id.rentalshop).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        for(int i=0;i<checkBox.length;i++){
-            if(checkBox[i].isChecked()){
-                sText += categoryBox.get(i);
-            }
+        if (v.getId() == R.id.bookstore){
+            ((MainActivity)getActivity()).setSearchText("book_store");
+        }else if (v.getId() == R.id.library){
+            ((MainActivity)getActivity()).setSearchText("library");
+        }else if (v.getId() == R.id.clothshop){
+            ((MainActivity)getActivity()).setSearchText("clothing_store");
+        }else if (v.getId() == R.id.museum){
+            ((MainActivity)getActivity()).setSearchText("museum");
+        }else if (v.getId() == R.id.park){
+            ((MainActivity)getActivity()).setSearchText("park");
+        }else if (v.getId() == R.id.rentalshop){
+            ((MainActivity)getActivity()).setSearchText("movie_rental");
         }
-
-
-        ((MainActivity)getActivity()).setSearchText(sText);
-//        ((MainActivity)getActivity()).changeFragment(MapViewFragment.class);
+        ((MainActivity)getActivity()).changeFragment(MapViewFragment2.class);
     }
 }

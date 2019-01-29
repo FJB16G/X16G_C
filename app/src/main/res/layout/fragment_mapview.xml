@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapViewFragment">
+    tools:context=".MapViewFragment2">
 
     <fragment
         android:id="@+id/map"
@@ -37,10 +37,9 @@
             android:layout_marginBottom="15dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
-            android:background="@android:color/holo_orange_dark"
-            android:padding="5dp"
+            android:background="#00000000"
             android:scaleType="fitCenter"
-            android:src="@drawable/coffie_touka" />
+            android:src="@drawable/cafe" />
 
         <ImageButton
             android:id="@+id/imageButton2"
@@ -49,31 +48,30 @@
             android:layout_gravity="right"
             android:layout_marginBottom="15dp"
             android:layout_marginRight="10dp"
-            android:background="@android:color/holo_orange_dark"
-            android:padding="5dp"
+            android:background="#00ff0000"
             android:scaleType="fitCenter"
-            android:src="@drawable/eat_touka" />
+            android:src="@drawable/restran" />
 
         <ImageButton
             android:id="@+id/imageButton3"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="right"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginRight="10dp"
-            android:background="@android:color/holo_orange_dark"
-            android:padding="3dp"
+            android:background="#00ffffff"
             android:scaleType="fitCenter"
-            android:src="@drawable/crangame" />
+            android:src="@drawable/conbini" />
 
         <ImageButton
             android:id="@+id/imageButton4"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="right"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
+            android:background="#00ffffff"
             android:scaleType="fitCenter"
-            android:src="@drawable/config" />
+            android:src="@drawable/other" />
 
     </LinearLayout>
 

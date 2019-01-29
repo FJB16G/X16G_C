@@ -242,7 +242,7 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
             loc.distanceBetween(marker.getPosition().latitude, marker.getPosition().longitude,beforeLatLong.latitude,beforeLatLong.longitude, results);
 
             // 移動時間の計算
-            final int moveTime = (int)(results[0]/60);
+            final int moveTime = (int)(results[0]/40);
 
             //クリックしたマーカーの情報をコンソール出力
             System.out.println(marker.getTitle() + "\n" + (float)(results[0]) + "m , " + moveTime + "分");
@@ -329,9 +329,9 @@ public class MapViewFragment2 extends Fragment implements OnMapReadyCallback,Rou
         } else if (v.getId() == R.id.imageButton2) {
             ((MainActivity) getActivity()).setSearchText("restaurant");
         } else if (v.getId() == R.id.imageButton3) {
-            ((MainActivity) getActivity()).setSearchText("amusement_park");
+            ((MainActivity) getActivity()).setSearchText("convenience_store");
         } else if (v.getId() == R.id.imageButton4) {
-
+            ((MainActivity) getActivity()).changeFragment(GenreCustomFragment.class);
         }
         // 周辺データを再取得
         RouteReader.recvPlace("AIzaSyCh6xPYG2qMmVz7PScq-w7lZKyAtDwrS1Y",

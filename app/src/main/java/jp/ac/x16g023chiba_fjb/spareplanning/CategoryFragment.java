@@ -35,8 +35,8 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
         //開発例
         view.findViewById(R.id.coffie).setOnClickListener(this);
         view.findViewById(R.id.eat).setOnClickListener(this);
-        view.findViewById(R.id.tranp).setOnClickListener(this);
-        view.findViewById(R.id.config).setOnClickListener(this);
+        view.findViewById(R.id.convenience).setOnClickListener(this);
+        view.findViewById(R.id.other).setOnClickListener(this);
 
         view.findViewById(R.id.reFast).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,11 +59,11 @@ public class CategoryFragment extends Fragment implements View.OnClickListener {
             ((MainActivity)getActivity()).setSearchText("restaurant");
             ((MainActivity)getActivity()).changeFragment(MapViewFragment2.class);
         }
-        else if(v.getId()==R.id.tranp){
-            ((MainActivity)getActivity()).setSearchText("amusement_park");
+        else if(v.getId()==R.id.convenience){
+            ((MainActivity)getActivity()).setSearchText("convenience_store");
             ((MainActivity)getActivity()).changeFragment(MapViewFragment2.class);
         }
-        else if(v.getId()==R.id.config){
+        else if(v.getId()==R.id.other){
             ((MainActivity)getActivity()).changeFragment(GenreCustomFragment.class);
         }
 

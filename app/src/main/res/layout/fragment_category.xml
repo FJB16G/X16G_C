@@ -54,42 +54,37 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="170dp"
                 android:orientation="horizontal">
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1">
 
                     <ImageButton
                         android:id="@+id/coffie"
-                        android:layout_width="150dp"
-                        android:layout_height="140dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/frame_style"
-                        android:padding="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#fafafa"
+                        android:padding="10dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/coffie_touka" />
-
+                        android:src="@drawable/cafe" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1">
 
                     <ImageButton
                         android:id="@+id/eat"
-                        android:layout_width="150dp"
-                        android:layout_height="140dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/frame_style"
-                        android:padding="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#fafafa"
+                        android:padding="10dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/eat_touka" />
+                        android:src="@drawable/restran" />
                 </FrameLayout>
 
             </LinearLayout>
@@ -103,7 +98,7 @@
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:layout_marginStart="7dp"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -113,7 +108,7 @@
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -122,37 +117,38 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
+                android:layout_height="170dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1">
 
                     <ImageButton
-                        android:id="@+id/tranp"
-                        android:layout_width="150dp"
-                        android:layout_height="140dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/frame_style"
+                        android:id="@+id/convenience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#fafafa"
+                        android:padding="10dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/crangame" />
+                        android:src="@drawable/conbini" />
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1">
 
                     <ImageButton
-                        android:id="@+id/config"
-                        android:layout_width="150dp"
-                        android:layout_height="140dp"
-                        android:layout_gravity="center"
+                        android:id="@+id/other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#fafafa"
+                        android:padding="10dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/config" />
+                        android:src="@drawable/other" />
                 </FrameLayout>
 
             </LinearLayout>
@@ -166,20 +162,20 @@
                     android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:layout_marginStart="7dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="遊び場" />
+                    android:text="コンビニ" />
 
                 <TextView
                     android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="詳細設定" />
+                    android:text="その他" />
             </LinearLayout>
 
         </LinearLayout>

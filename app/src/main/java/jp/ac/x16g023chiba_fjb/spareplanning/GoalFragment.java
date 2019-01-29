@@ -140,10 +140,10 @@ public class GoalFragment extends Fragment implements OnMapReadyCallback, Google
 //            }
 //        }.start();
 
-        view.findViewById(R.id.imageButton3).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.imageView10000).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).changeFragment(GoalFragment.class);
+                ((MainActivity)getActivity()).changeFragment(FirstFragment.class);
             }
         });
     }

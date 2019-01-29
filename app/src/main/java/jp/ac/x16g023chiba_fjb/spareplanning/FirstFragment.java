@@ -75,7 +75,7 @@ public class FirstFragment extends Fragment implements LocationSource.OnLocation
     Button nextbutton;
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ls = new MyLocationSource(getContext());
@@ -167,6 +167,21 @@ public class FirstFragment extends Fragment implements LocationSource.OnLocation
         mTimer = new Timer();
         mTimer.schedule(timerTask,0,15);
 
+        view.findViewById(R.id.returnNow).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioGroup r = getView().findViewById(R.id.radiogroup);
+                r.check(R.id.radioButton);
+            }
+        });
+
+        view.findViewById(R.id.returnLast).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioGroup r = getView().findViewById(R.id.radiogroup);
+                r.check(R.id.radioButton2);
+            }
+        });
 
         //画面切り替えボタン処理
         nextbutton.setOnClickListener(new View.OnClickListener() {
